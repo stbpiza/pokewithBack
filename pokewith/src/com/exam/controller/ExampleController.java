@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class ExampleController {
 	@RequestMapping(value="/", method = RequestMethod.GET)
-	public String home() {return "/views/home.jsp";}
+	public String home() {return "home";}
 }

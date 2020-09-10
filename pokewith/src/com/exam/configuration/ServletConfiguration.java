@@ -1,6 +1,7 @@
 package com.exam.configuration;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import org.springframework.social.facebook.connect.FacebookConnectionFactory;
+import org.springframework.social.oauth2.OAuth2Parameters;
 
 @Configuration
 @EnableWebMvc
@@ -27,6 +31,12 @@ public class ServletConfiguration implements WebMvcConfigurer {
 	@Value("${db.password")
 	private String db_password;
 	
+	@Value("${facebook.clientid}")
+	private String facebook_clientid;
+	
+	@Value("${facebook.secretcode}")
+	private String facebook_secretcode;
+	
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		registry.jsp("/views/", ".jsp");
 	}
@@ -34,18 +44,13 @@ public class ServletConfiguration implements WebMvcConfigurer {
 	@Bean
 	public BasicDataSource basicDataSource() {
 		BasicDataSource basicDataSource = new BasicDataSource();
-			basicDataSource.setDriverClassName(db_classname);
+		basicDataSource.setDriverClassName(db_classname);
 		basicDataSource.setUrl(db_url);
 		basicDataSource.setUsername(db_username);
 		basicDataSource.setPassword(db_password);
 		return basicDataSource;
 	}
 	
-//	@Bean
-//	public JdbcTemplate jdbcTemplate(BasicDataSource basicDataSource) {
-//		JdbcTemplate jdbcTemplate = new JdbcTemplate(basicDataSource);
-//		return jdbcTemplate;
-//	}
 	
 	@Bean
 	public SqlSessionFactory sqlSessionFactory(BasicDataSource basicDataSource) throws Exception{
@@ -53,6 +58,20 @@ public class ServletConfiguration implements WebMvcConfigurer {
 		factoryBean.setDataSource(basicDataSource);
 		SqlSessionFactory sqlSessionFactory = factoryBean.getObject();
 		return sqlSessionFactory;
+	}
+	
+	@Bean
+	public FacebookConnectionFactory facebookConnctionFactory() throws Exception{
+		FacebookConnectionFactory facebook = new FacebookConnectionFactory(facebook_clientid,facebook_secretcode);
+		return facebook;
+	}
+	
+	@Bean
+	public OAuth2Parameters oAuth2Parameters(){
+		OAuth2Parameters oa = new OAuth2Parameters();
+		oa.setScope("email");
+		oa.setRedirectUri("/");
+		return oa;
 	}
 	
 }
