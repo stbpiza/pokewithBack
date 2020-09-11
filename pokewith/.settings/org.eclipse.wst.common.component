@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+<<<<<<< HEAD
         
     <wb-module deploy-name="pokewith-0.0.1-SNAPSHOT">
                 
@@ -13,4 +14,27 @@
             
     </wb-module>
     
+=======
+            
+    
+    <wb-module deploy-name="pokewith-0.0.1-SNAPSHOT">
+                        
+        
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+                        
+        
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+                        
+        
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+                        
+        
+        <property name="java-output-path" value="/springexam/build/classes"/>
+        <property name="context-root" value="pokewith"/>
+                    
+    
+    </wb-module>
+        
+
+>>>>>>> 73945c5b839eb04b0044164b018754b3ba3fa744
 </project-modules>

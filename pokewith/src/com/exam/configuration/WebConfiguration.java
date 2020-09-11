@@ -26,10 +26,6 @@ public class WebConfiguration implements WebApplicationInitializer {
 
         ContextLoaderListener listener = new ContextLoaderListener(rootAppConfiguration);
         servletContext.addListener(listener);
-
-//        FilterRegistration.Dynamic filter = servletContext.addFilter("encodingFilter", CharacterEncodingFilter.class);
-//        filter.addMappingForServletNames(null, false, "dispathcer");
-//        filter.setInitParameter("encoding", "UTF-8");
     }
     
     
