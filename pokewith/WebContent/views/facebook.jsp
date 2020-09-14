@@ -21,6 +21,10 @@ if (window.location.hash === "#_=_"){
 </head>
 <body>
 userId = <%=userId %><br>
-<%=userName%>님 반갑습니다.
+<%=userName%>님 반갑습니다.<br>
+회원가입 여부 체크해주세요<br>
+<form action="/check" method="post">
+<input type="submit" value="체크">
+</form>
 </body>
 </html>

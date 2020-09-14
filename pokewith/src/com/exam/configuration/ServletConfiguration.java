@@ -3,6 +3,7 @@ package com.exam.configuration;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +15,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.exam.mapper.PostMapper;
+import com.exam.mapper.UserMapper;
 
 
 @Configuration
@@ -80,4 +84,17 @@ public class ServletConfiguration implements WebMvcConfigurer {
 		return oa;
 	}
 	
+	@Bean
+	public MapperFactoryBean<UserMapper> mapperFactoryBean(SqlSessionFactory sqlSessionFactory) {
+		MapperFactoryBean<UserMapper> factoryBean = new MapperFactoryBean<>(UserMapper.class);
+		factoryBean.setSqlSessionFactory(sqlSessionFactory);
+		return factoryBean;
+	}
+	
+	@Bean
+	public MapperFactoryBean<PostMapper> mapperFactoryBean2(SqlSessionFactory sqlSessionFactory) {
+		MapperFactoryBean<PostMapper> factoryBean = new MapperFactoryBean<>(PostMapper.class);
+		factoryBean.setSqlSessionFactory(sqlSessionFactory);
+		return factoryBean;
+	}
 }

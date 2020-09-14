@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.exam.beans.UserBean;
+import com.exam.mapper.UserMapper;
+
 @Controller
 public class FacebookController {
 	
@@ -29,6 +32,8 @@ public class FacebookController {
 	private FacebookConnectionFactory connectionfactory;
 	@Autowired
 	private OAuth2Parameters oAuth2Parameters;
+	@Autowired
+	UserMapper usermapper;
 	
 	@RequestMapping(value="/sign", method= {RequestMethod.GET, RequestMethod.POST})
 	public String join(HttpServletResponse response, Model model) {
@@ -85,5 +90,48 @@ public class FacebookController {
 		return "redirect:/facebook";
 	} 
 	
-
+	@RequestMapping(value="/check", method= {RequestMethod.GET, RequestMethod.POST})
+	public String join(UserBean userBean, HttpServletResponse response, HttpServletRequest request) {
+		HttpSession ss = request.getSession();
+		String userId = (String)ss.getAttribute("userId");
+		userBean.setUserId(userId);
+		System.out.println("userid : " + userId);
+		for(UserBean userBean2: usermapper.getUser(userBean)) {
+			userBean = userBean2;
+		}
+		System.out.println("bean nickname1 : " + userBean.getNickname1());
+		if (userBean.getNickname1()==null) {
+			return "signin";
+		}
+		else {
+			ss.setAttribute("nickname1", userBean.getNickname1());
+			ss.setAttribute("u_like", userBean.getU_like());
+			ss.setAttribute("u_hate", userBean.getU_hate());
+		}
+		
+		return "loginGood";
+	}
+	
+	@RequestMapping(value="/newsignin", method= {RequestMethod.GET, RequestMethod.POST})
+	public String newsign(UserBean userBean, HttpServletResponse response, HttpServletRequest request) {
+		HttpSession ss = request.getSession();
+		String userId = (String) ss.getAttribute("userId");
+		//String nickname1 = (String) request.getAttribute("nickname1");
+		//String friendCode1 = (String) request.getAttribute("friendCode1");
+		System.out.println("userId : " + userId);
+		System.out.println("nickname1 : " + userBean.getNickname1());
+		System.out.println("friendCode1 : " + userBean.getFriendCode1());
+		userBean.setUserId(userId);
+		//userBean.setNickname1(nickname1);
+		//userBean.setFriendCode1(friendCode1);
+		usermapper.signIn(userBean);
+		
+		for(UserBean userBean2: usermapper.getUser(userBean)) {
+			userBean = userBean2;
+		}
+		ss.setAttribute("nickname1", userBean.getNickname1());
+		ss.setAttribute("u_like", userBean.getU_like());
+		ss.setAttribute("u_hate", userBean.getU_hate());
+		return "loginGood";
+	}
 }
