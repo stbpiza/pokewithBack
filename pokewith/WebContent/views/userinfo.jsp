@@ -7,10 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-		<form action="/index/comment" method="get">
-		<input type="text" name="p_id" placeholder="p_id" required>
-		 <input type="submit" value="확인">
-	</form>
-	
+good
 </body>
 </html>

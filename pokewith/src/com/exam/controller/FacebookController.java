@@ -18,9 +18,11 @@ import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.exam.beans.UserBean;
 import com.exam.mapper.UserMapper;
@@ -44,7 +46,12 @@ public class FacebookController {
 		model.addAttribute("facebook_url", facebook_url);
 		System.out.println("/facebook" + facebook_url);
 		
-		return "/join";
+		return "join";
+	}
+	
+	@RequestMapping(value="/join", method=RequestMethod.GET)
+	public String join2() {
+		return "join";
 	}
 	
 	@RequestMapping(value="/facebookSignInCallback", method= {RequestMethod.GET, RequestMethod.POST})
@@ -76,9 +83,8 @@ public class FacebookController {
 				System.out.println("유저 id : " + userProfile.getId());
 				System.out.println("유저 name : " + userProfile.getName());
 				HttpSession session = request.getSession(true);
-				session.setMaxInactiveInterval(86400);
+				session.setMaxInactiveInterval(-1);
 				session.setAttribute("userId",userProfile.getId());
-				session.setAttribute("userName",userProfile.getName());
 			}
 			catch (MissingAuthorizationException e) {
 				e.printStackTrace();
@@ -87,10 +93,10 @@ public class FacebookController {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/facebook";
+		return "forward:/check";
 	} 
 	
-	@RequestMapping(value="/check", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/check", method= {RequestMethod.GET, RequestMethod.POST}) //회원유무체크
 	public String join(UserBean userBean, HttpServletResponse response, HttpServletRequest request) {
 		HttpSession ss = request.getSession();
 		String userId = (String)ss.getAttribute("userId");
@@ -102,36 +108,62 @@ public class FacebookController {
 		System.out.println("bean nickname1 : " + userBean.getNickname1());
 		if (userBean.getNickname1()==null) {
 			return "signin";
+			//return "redirect:http://192.168.1.88:5502/register.html";
 		}
 		else {
-			ss.setAttribute("nickname1", userBean.getNickname1());
-			ss.setAttribute("u_like", userBean.getU_like());
-			ss.setAttribute("u_hate", userBean.getU_hate());
+			//ss.setAttribute("nickname1", userBean.getNickname1());
+			//ss.setAttribute("u_like", userBean.getU_like());
+			//ss.setAttribute("u_hate", userBean.getU_hate());
 		}
 		
 		return "loginGood";
+		//return "forward:http://192.168.1.88:5502/index.html";
 	}
 	
-	@RequestMapping(value="/newsignin", method= {RequestMethod.GET, RequestMethod.POST})
+	
+	
+	@RequestMapping(value="/signup", method= {RequestMethod.GET, RequestMethod.POST}) //회원가입
 	public String newsign(UserBean userBean, HttpServletResponse response, HttpServletRequest request) {
 		HttpSession ss = request.getSession();
 		String userId = (String) ss.getAttribute("userId");
-		//String nickname1 = (String) request.getAttribute("nickname1");
-		//String friendCode1 = (String) request.getAttribute("friendCode1");
+
 		System.out.println("userId : " + userId);
-		System.out.println("nickname1 : " + userBean.getNickname1());
-		System.out.println("friendCode1 : " + userBean.getFriendCode1());
+		System.out.println(userBean);
 		userBean.setUserId(userId);
-		//userBean.setNickname1(nickname1);
-		//userBean.setFriendCode1(friendCode1);
 		usermapper.signIn(userBean);
 		
 		for(UserBean userBean2: usermapper.getUser(userBean)) {
 			userBean = userBean2;
 		}
-		ss.setAttribute("nickname1", userBean.getNickname1());
-		ss.setAttribute("u_like", userBean.getU_like());
-		ss.setAttribute("u_hate", userBean.getU_hate());
+		//ss.setAttribute("nickname1", userBean.getNickname1());
+		//ss.setAttribute("u_like", userBean.getU_like());
+		//ss.setAttribute("u_hate", userBean.getU_hate());
 		return "loginGood";
+	}
+	
+	@ResponseBody //테스트용
+	@RequestMapping(value="/newsignjson", method= RequestMethod.POST, produces="application/json; charset=utf8")
+	public UserBean gsonin(@RequestBody UserBean userBean){
+
+		
+		System.out.println("in" + userBean);
+		for(UserBean userBean2: usermapper.getUser(userBean)) {
+			userBean = userBean2;
+		}
+		System.out.println("out" + userBean);
+		return userBean;
+	}
+	
+	@RequestMapping(value="/updateuser", method=RequestMethod.GET) //테스트용
+	public String uduser() {
+		return "updateuser";
+	}
+	@RequestMapping(value="/posttest", method=RequestMethod.GET) //테스트용
+	public String ptest() {
+		return "post";
+	}
+	@RequestMapping(value="/newpost", method=RequestMethod.GET) //테스트용
+	public String nptest() {
+		return "newpost";
 	}
 }

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%
 HttpSession ss = request.getSession();
 String userId = (String)ss.getAttribute("userId");
@@ -14,8 +14,10 @@ String u_hate = (String)ss.getAttribute("u_hate");
 <title>Insert title here</title>
 </head>
 <body>
-<%=nickname1%>님 환영합니다<br>
-좋아요 : <%=u_like %><br>
-싫어요 : <%=u_hate %>
+	<%=nickname1%>님 환영합니다
+	<br> 좋아요 :
+	<%=u_like %><br> 싫어요 :
+	<%=u_hate %><br>
+	userid : <%=userId %>
 </body>
 </html>

@@ -9,15 +9,37 @@ public class PostBean {
 	private String endTime;
 	private String nPass;
 	private String rPass;
-	private String end;
+	private String p_end;
 	private String minLevel;
-	
-	
+	private String nickname1;
+	private String u_like;
+	private String u_hate;
+
+
 	@Override
 	public String toString() {
 		return "PostBean [p_id=" + p_id + ", userId=" + userId + ", pokemon=" + pokemon + ", raidLevel=" + raidLevel
 				+ ", startTime=" + startTime + ", endTime=" + endTime + ", nPass=" + nPass + ", rPass=" + rPass
-				+ ", end=" + end + ", minLevel=" + minLevel + "]";
+				+ ", p_end=" + p_end + ", minLevel=" + minLevel + ", nickname1=" + nickname1 + ", u_like=" + u_like
+				+ ", u_hate=" + u_hate + "]";
+	}
+	public String getU_like() {
+		return u_like;
+	}
+	public void setU_like(String u_like) {
+		this.u_like = u_like;
+	}
+	public String getU_hate() {
+		return u_hate;
+	}
+	public void setU_hate(String u_hate) {
+		this.u_hate = u_hate;
+	}
+	public String getNickname1() {
+		return nickname1;
+	}
+	public void setNickname1(String nickname1) {
+		this.nickname1 = nickname1;
 	}
 	public String getP_id() {
 		return p_id;
@@ -67,11 +89,11 @@ public class PostBean {
 	public void setrPass(String rPass) {
 		this.rPass = rPass;
 	}
-	public String getEnd() {
-		return end;
+	public String getP_end() {
+		return p_end;
 	}
-	public void setEnd(String end) {
-		this.end = end;
+	public void setP_end(String p_end) {
+		this.p_end = p_end;
 	}
 	public String getMinLevel() {
 		return minLevel;
@@ -79,6 +101,8 @@ public class PostBean {
 	public void setMinLevel(String minLevel) {
 		this.minLevel = minLevel;
 	}
+	
+	
 	
 	
 }

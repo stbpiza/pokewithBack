@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.exam.mapper.CommentMapper;
 import com.exam.mapper.PostMapper;
 import com.exam.mapper.UserMapper;
 
@@ -80,7 +81,7 @@ public class ServletConfiguration implements WebMvcConfigurer {
 	public OAuth2Parameters oAuth2Parameters(){
 		OAuth2Parameters oa = new OAuth2Parameters();
 		oa.setScope("email");
-		oa.setRedirectUri("https://localhost:8443/facebookSignInCallback");
+		oa.setRedirectUri("https://192.168.1.136:8443/facebookSignInCallback");
 		return oa;
 	}
 	
@@ -94,6 +95,13 @@ public class ServletConfiguration implements WebMvcConfigurer {
 	@Bean
 	public MapperFactoryBean<PostMapper> mapperFactoryBean2(SqlSessionFactory sqlSessionFactory) {
 		MapperFactoryBean<PostMapper> factoryBean = new MapperFactoryBean<>(PostMapper.class);
+		factoryBean.setSqlSessionFactory(sqlSessionFactory);
+		return factoryBean;
+	}
+	
+	@Bean
+	public MapperFactoryBean<CommentMapper> mapperFactoryBean3(SqlSessionFactory sqlSessionFactory) {
+		MapperFactoryBean<CommentMapper> factoryBean = new MapperFactoryBean<>(CommentMapper.class);
 		factoryBean.setSqlSessionFactory(sqlSessionFactory);
 		return factoryBean;
 	}
