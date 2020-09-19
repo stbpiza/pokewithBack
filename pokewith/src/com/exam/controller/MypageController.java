@@ -25,14 +25,12 @@ public class MypageController {
 
 	@ResponseBody
 	@GetMapping //유저정보출력
-	public UserBean getUser(@RequestBody UserBean userBean, HttpServletRequest request) {
+	public UserBean getUser(HttpServletRequest request) {
 		System.out.println("/mypage get 접속");
-		//UserBean userBean = new UserBean();
-		if (userBean.getUserId()==null) {
+		UserBean userBean = new UserBean();
 		HttpSession ss = request.getSession();
 		String userId = (String)ss.getAttribute("userId");
 		userBean.setUserId(userId);
-		}
 		System.out.println("userid : " + userBean.getUserId());
 		for(UserBean userBean2: usermapper.getUser(userBean)) {
 			userBean = userBean2;
@@ -44,12 +42,9 @@ public class MypageController {
 	public String setUser(@RequestBody UserBean userBean, HttpServletRequest request) {
 		System.out.println("/mypage post 접속");
 		System.out.println(userBean);
-		System.out.println(userBean.getUserId()==null);
-		if (userBean.getUserId()==null) {
 		HttpSession ss = request.getSession();
 		String userId = (String)ss.getAttribute("userId");
 		userBean.setUserId(userId);
-		}
 		System.out.println("userid : " + userBean.getUserId());
 		
 		usermapper.reUser(userBean);

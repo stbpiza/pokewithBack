@@ -29,4 +29,17 @@ public class UserController {
 		
 		return "userinfo";
 	}
+	
+	@RequestMapping(value="/testlog", method= {RequestMethod.GET, RequestMethod.POST}) //테스트용 로그인
+	public String testlogin(UserBean userBean, HttpServletResponse response, HttpServletRequest request) {
+		System.out.println("/testlog 접속");
+		System.out.println(userBean);
+		HttpSession session = request.getSession(true);
+		session.setMaxInactiveInterval(-1);
+		session.setAttribute("userId",userBean.getUserId());
+		System.out.println("userId : " + userBean.getUserId());
+		
+		return "testlogin";
+	}
+	
 }

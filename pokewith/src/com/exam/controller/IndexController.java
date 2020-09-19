@@ -42,16 +42,11 @@ public class IndexController {
 	@PostMapping //메인페이지 게시물 입력
 	public String setpost(@RequestBody PostBean postBean, HttpServletRequest request){
 		System.out.println("/index post 접속");
-		if (postBean.getUserId()==null) {
-			HttpSession ss = request.getSession();
-			String userId = (String) ss.getAttribute("userId");
-			System.out.println(postBean);
-			postBean.setUserId(userId);
-		}
-		else {
-			System.out.println("세션미사용");
-			System.out.println(postBean);
-		}
+		HttpSession ss = request.getSession();
+		String userId = (String) ss.getAttribute("userId");
+		System.out.println(postBean);
+		postBean.setUserId(userId);
+
 		postmapper.posting(postBean);
 		String m = "성공";
 		request.setAttribute("m", m);
@@ -71,16 +66,12 @@ public class IndexController {
 	@PostMapping("/comment") //댓글 입력
 	public String setcomment(@RequestBody CommentBean commentBean, HttpServletRequest request) {
 		System.out.println("/index/comment post 접속");
-		if (commentBean.getUserId()==null) {
-			HttpSession ss = request.getSession();
-			String userId = (String) ss.getAttribute("userId");
-			System.out.println(commentBean);
-			commentBean.setUserId(userId);
-		}
-		else {
-			System.out.println("세션미사용");
-			System.out.println(commentBean);
-		}
+
+		HttpSession ss = request.getSession();
+		String userId = (String) ss.getAttribute("userId");
+		System.out.println(commentBean);
+		commentBean.setUserId(userId);
+
 		commentmapper.commenting(commentBean);
 		String m = "성공";
 		request.setAttribute("m", m);

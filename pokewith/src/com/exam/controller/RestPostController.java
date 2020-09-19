@@ -20,16 +20,16 @@ public class RestPostController {
 	PostMapper postmapper;
 	
 	
-	@RequestMapping(value="/mypost", method= {RequestMethod.GET, RequestMethod.POST}) //마이페이지 게시물 출력
-	public PostBean lookmypost(HttpServletRequest request){
-		PostBean postBean = new PostBean();
-		HttpSession ss = request.getSession();
-		String userId = (String) ss.getAttribute("userId");
-		postBean.setUserId(userId);
-		for(PostBean postBean2: postmapper.getMyPost(postBean)) {
-			postBean = postBean2;
-		}
-		System.out.println(postBean);
-		return postBean;
-	}
+//	@RequestMapping(value="/mypost", method= {RequestMethod.GET, RequestMethod.POST}) //마이페이지 게시물 출력
+//	public PostBean lookmypost(HttpServletRequest request){
+//		PostBean postBean = new PostBean();
+//		HttpSession ss = request.getSession();
+//		String userId = (String) ss.getAttribute("userId");
+//		postBean.setUserId(userId);
+//		for(PostBean postBean2: postmapper.getMyPost(postBean)) {
+//			postBean = postBean2;
+//		}
+//		System.out.println(postBean);
+//		return postBean;
+//	}
 }

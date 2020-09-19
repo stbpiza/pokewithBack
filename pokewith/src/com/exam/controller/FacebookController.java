@@ -143,7 +143,7 @@ public class FacebookController {
 	
 	@ResponseBody //테스트용
 	@RequestMapping(value="/newsignjson", method= RequestMethod.POST, produces="application/json; charset=utf8")
-	public UserBean gsonin(@RequestBody UserBean userBean){
+	public String gsonin(@RequestBody UserBean userBean){
 
 		
 		System.out.println("in" + userBean);
@@ -151,7 +151,7 @@ public class FacebookController {
 			userBean = userBean2;
 		}
 		System.out.println("out" + userBean);
-		return userBean;
+		return "1";
 	}
 	
 	@RequestMapping(value="/updateuser", method=RequestMethod.GET) //테스트용
@@ -165,5 +165,10 @@ public class FacebookController {
 	@RequestMapping(value="/newpost", method=RequestMethod.GET) //테스트용
 	public String nptest() {
 		return "newpost";
+	}
+	
+	@RequestMapping(value="/test", method= {RequestMethod.GET, RequestMethod.POST}) //테스트용
+	public String test() {
+		return "testlogin";
 	}
 }
