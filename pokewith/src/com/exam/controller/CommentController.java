@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +21,8 @@ import com.exam.mapper.PostMapper;
 
 @CrossOrigin
 @Controller
-@RequestMapping(value="/index", produces="application/json; charset=utf8")
-public class IndexController {
+@RequestMapping(value="/comment", produces="application/json; charset=utf8")
+public class CommentController {
 	
 	@Autowired
 	PostMapper postmapper;
@@ -29,24 +30,27 @@ public class IndexController {
 	CommentMapper commentmapper;
 	
 	@ResponseBody
-	@GetMapping//메인페이지 게시물 출력
-	public List<PostBean> lookpost(){
-		System.out.println("/index get 접속");
-		PostBean postBean = new PostBean();
+	@GetMapping("/{p_id}") //댓글 출력
+	public List<CommentBean> lookcomment(@PathVariable String p_id){
+		System.out.println("/comment get 접속");
+		System.out.println("p_id : " + p_id);
+		CommentBean commentBean = new CommentBean();
+		commentBean.setP_id(p_id);
 
-		
-		return postmapper.getPost(postBean);
+		return commentmapper.getComment(commentBean);
 	}
 	
 	@ResponseBody
-	@PostMapping //메인페이지 게시물 입력
-	public String setpost(@RequestBody PostBean postBean, HttpServletRequest request){
-		System.out.println("/index post 접속");
+	@PostMapping //댓글 입력
+	public String setcomment(@RequestBody CommentBean commentBean, HttpServletRequest request) {
+		System.out.println("/comment post 접속");
+
 //		HttpSession ss = request.getSession();
 //		String userId = (String) ss.getAttribute("userId");
-		System.out.println(postBean);
-//		postBean.setUserId(userId);
-		
+		System.out.println(commentBean);
+//		commentBean.setUserId(userId);
+
+		PostBean postBean = new PostBean();
 		String p_end="";
 		for(PostBean postBean2: postmapper.checkEnd(postBean)) {
 			p_end=postBean2.getP_end();
@@ -60,7 +64,7 @@ public class IndexController {
 			return "-1";
 		}
 		System.out.println("글 쓴거 없음");
-		CommentBean commentBean = new CommentBean();
+
 		commentBean.setUserId(postBean.getUserId());
 		String c_end="";
 		for(CommentBean commentBean2: commentmapper.checkEnd(commentBean)) {
@@ -75,10 +79,11 @@ public class IndexController {
 			return "-1";
 		}
 		System.out.println("댓글 쓴거 없음");
-		System.out.println("정상 글 등록");
-		postmapper.posting(postBean);
+		System.out.println("정상 댓글 등록");
+		
+		
+		commentmapper.commenting(commentBean);
+
 		return "1";
 	}
-	
-
 }

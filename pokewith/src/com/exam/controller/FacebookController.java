@@ -18,6 +18,7 @@ import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.exam.beans.UserBean;
 import com.exam.mapper.UserMapper;
 
+@CrossOrigin
 @Controller
 public class FacebookController {
 	
@@ -121,9 +123,9 @@ public class FacebookController {
 	}
 	
 	
-	
-	@RequestMapping(value="/signup", method= {RequestMethod.GET, RequestMethod.POST}) //회원가입
-	public String newsign(UserBean userBean, HttpServletResponse response, HttpServletRequest request) {
+	@ResponseBody
+	@RequestMapping(value="/signup", method= RequestMethod.POST, produces="application/json; charset=utf8") //회원가입
+	public String newsign(@RequestBody UserBean userBean, HttpServletResponse response, HttpServletRequest request) {
 		HttpSession ss = request.getSession();
 		String userId = (String) ss.getAttribute("userId");
 

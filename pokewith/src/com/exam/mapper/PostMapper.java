@@ -28,9 +28,13 @@ public interface PostMapper {
 			+ "VALUES(#{userId}, #{pokemon}, #{raidLevel}, #{startTime}, #{endTime}, #{nPass}, #{rPass}, #{minLevel})")
 	public void posting(PostBean postBean);
 	
+	//게시글 채택
+	@Update("UPDATE post SET p_end=1, chat=#{chat} WHERE p_id=#{p_id}")
+	public void pEnd1(PostBean postBean);
+	
 	//게시글 종료
-	@Update("UPDATE post SET p_end=1 WHERE p_id=#{p_id}")
-	public void pEnd(PostBean postBean);
+	@Update("UPDATE post SET p_end=2 WHERE p_id=#{p_id}")
+	public void pEnd2(PostBean postBean);
 	
 	//게시글 작성한게 있는지
 	@Select("SELECT * FROM post WHERE userId=#{userId} ORDER BY p_id DESC LIMIT 1")

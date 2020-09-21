@@ -14,14 +14,20 @@ public class PostBean {
 	private String nickname1;
 	private String u_like;
 	private String u_hate;
-
+	private String chat;
 
 	@Override
 	public String toString() {
 		return "PostBean [p_id=" + p_id + ", userId=" + userId + ", pokemon=" + pokemon + ", raidLevel=" + raidLevel
 				+ ", startTime=" + startTime + ", endTime=" + endTime + ", nPass=" + nPass + ", rPass=" + rPass
 				+ ", p_end=" + p_end + ", minLevel=" + minLevel + ", nickname1=" + nickname1 + ", u_like=" + u_like
-				+ ", u_hate=" + u_hate + "]";
+				+ ", u_hate=" + u_hate + ", chat=" + chat + "]";
+	}
+	public String getChat() {
+		return chat;
+	}
+	public void setChat(String chat) {
+		this.chat = chat;
 	}
 	public String getU_like() {
 		return u_like;

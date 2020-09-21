@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.exam.beans.CommentBean;
+import com.exam.beans.CommentBean2;
 
 public interface CommentMapper {
 	//댓글작성
@@ -19,12 +20,19 @@ public interface CommentMapper {
 	public List<CommentBean> getComment(CommentBean commentBean);
 	
 	//댓글채택1
-	@Update("UPDATE comment SET c_end=1 WHERE c_id=#{c_id}")
-	public void changeComment1(CommentBean commentBean);
+	@Update({"<script>",
+		"UPDATE comment",
+		"	<set>",
+		"		c_end=1 ",
+		"	</set>",
+		"	WHERE c_id IN",
+		"	<foreach collection='c_id' item='a' open='(' separator=',' close=')'> #{a} </foreach>",
+		"</script>"})
+	public void changeComment1(CommentBean2 commentBean2);
 	
 	//댓글채택탈락
 	@Update("UPDATE comment SET c_end=2 WHERE p_id=#{p_id}")
-	public void changeComment2(CommentBean commentBean);
+	public void changeComment2(CommentBean2 commentBean2);
 	
 	//댓글삭제
 	@Delete("DELETE FROM comment WHERE c_id=#{c_id}")

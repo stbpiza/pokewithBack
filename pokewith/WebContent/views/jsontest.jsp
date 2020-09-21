@@ -10,11 +10,11 @@
 <body>
 	<button onclick="test()" type="button">Ajax</button>
 	<script> 
-var obj = { "userId": "3268944226555507" }; 
+var obj = { "p_id": "6", "c_id" : "{'9', '10'}" }; 
 function test() { 
 	$.ajax({ 
-		url: "<c:url value="/newsignjson" />", 
-		type: "post", data: JSON.stringify(obj), 
+		url: "<c:url value="/mypost" />", 
+		type: "put", data: JSON.stringify(obj), 
 		dataType: "json", 
 		contentType: "application/json", 
 		success: function(data) {
