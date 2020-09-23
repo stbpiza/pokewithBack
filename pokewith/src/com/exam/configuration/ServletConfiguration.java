@@ -9,14 +9,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 
-import com.exam.controller.WebSocketChatController;
-
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 @EnableWebMvc
@@ -28,14 +24,14 @@ public class ServletConfiguration implements WebMvcConfigurer {
 	private String db_classname;
 	@Value("${db.url}")
 	private String db_url;
-	@Value("${db.username")
+	@Value("${db.username}")
 	private String db_username;
-	@Value("${db.password")
+	@Value("${db.password}")
 	private String db_password;
 	
-	public void configureViewResolvers(ViewResolverRegistry registry) {
-		registry.jsp("/views/", ".jsp");
-	}
+//	public void configureViewResolvers(ViewResolverRegistry registry) {
+//		registry.jsp("/views/",".jsp");
+//	}
 	
 	@Bean
 	public BasicDataSource basicDataSource() {
@@ -46,6 +42,12 @@ public class ServletConfiguration implements WebMvcConfigurer {
 		basicDataSource.setPassword(db_password);
 		return basicDataSource;
 	}
+	
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/**").addResourceLocations("/resources/");
+	}
+	
 	
 //	@Bean
 //	public JdbcTemplate jdbcTemplate(BasicDataSource basicDataSource) {
@@ -59,6 +61,11 @@ public class ServletConfiguration implements WebMvcConfigurer {
 		factoryBean.setDataSource(basicDataSource);
 		SqlSessionFactory sqlSessionFactory = factoryBean.getObject();
 		return sqlSessionFactory;
+	}
+	
+	@Bean
+	public ObjectMapper objectMapper() {
+		return new ObjectMapper();
 	}
 	
 	
