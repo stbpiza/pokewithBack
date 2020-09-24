@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -21,24 +24,17 @@ public class ChatRoom {
 	private Set<WebSocketSession> sessions = new HashSet<>();
 	
 	
-   
-	public static ChatRoom create(String name) {
+	@RequestMapping(value = "/room/new", method=RequestMethod.POST)
+	public static ChatRoom create(@RequestBody ChatRoomForm form) {
 		ChatRoom chatRoom = new ChatRoom();
-		chatRoom.roomId = UUID.randomUUID().toString();
-		chatRoom.name = name;
+		chatRoom.roomId = form.getChat();
+//		chatRoom.roomId = UUID.randomUUID().toString();
+		chatRoom.name = form.getName();
 		return chatRoom;
 		
 	}
 	
 	
-	
-//	public static ChatRoom delete(String roomId) {
-//		ChatRoom chatRoom = new ChatRoom();
-//		Set<WebSocketSession> sessions = new HashSet<>();
-//		chatRoom.roomId = UUID.randomUUID().toString();
-//		sessions.remove(chatRoom.roomId);
-//		return chatRoom;
-//	}
 	
 
 	public void handleMessage(WebSocketSession session, ChatMessage chatMessage, ObjectMapper objectMapper)

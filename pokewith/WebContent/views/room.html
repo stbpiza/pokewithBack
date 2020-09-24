@@ -32,7 +32,7 @@ html {
 	<!-- <label for="roomName" class="label label-default">방 이름</label>
 	<label th:text="*{room.name}" id="roomName" class="form-inline"></label> -->
 	<div id="chatroom"
-		style="overflow: auto; width: 400px; height: 600px; border: 1px solid; background-color: #9bbbd4"></div>
+		style="overflow: auto; overflow-x:hidden; width: 400px; height: 600px; border: 1px solid; background-color: #9bbbd4"></div>
 	<select id="message" style="height: 30px; width: 340px" required
 		placeholder="Please select" autofocus>
 		<option
@@ -97,7 +97,9 @@ function enterkey() {
     }
 }
 
-    function noEvent() {
+
+
+    /* function noEvent() {
     	if (event.keyCode == 116 || event.keyCode == 9) {
     		alert('No!');
     		return false;
@@ -107,16 +109,25 @@ function enterkey() {
     	}
     } 
     
-    document.onkeydown = noEvent;
+    document.onkeydown = noEvent; */
     
-//  채팅이 많아져 스크롤바가 넘어가더라도 자동적으로 스크롤바가 내려가게함
-    window.setInterval(function() {
-        var elem = document.getElementById('chatroom');
-        elem.scrollTop = elem.scrollHeight;
-    }, 0);
+    window.onbeforeunload = function(e){
+    	var dialogText = 'Dialog text here';
+   	 e.returnValue = dialogText;
+    	
+    }
     
     
-    
+
+   //새로고침방지
+   window.onbeforeunload = function(/* e */){
+    	 /* var dialogText = 'Dialog text here';
+    	 e.returnValue = dialogText; */
+	   webSocket.send(JSON.stringify({chatRoomId : roomId,type:'LEAVE',writer:nickname}));
+       webSocket.close();
+       window.location.href="http://192.168.1.97:8080/";
+   }
+        	
      
     var webSocket;
     var nickname;
@@ -152,19 +163,29 @@ function enterkey() {
 		        webSocket.send(JSON.stringify({type:'LEAVE',writer:nickname}));
 		        webSocket.close();
 		    }; */
-		
-    }
+	 }
+    
+ 
+    
     
     function send(){
         msg = document.getElementById("message").value; 
         console.log(msg);
         webSocket.send(JSON.stringify({chatRoomId : roomId,type:'CHAT',writer:nickname,message : msg}));
         document.getElementById("message").value = "";
-   
-    }
+        
+        setTimeout(
+        scroll, 50
+       );
+
+        
+       }
     
-  
-	
+    function scroll(){
+    var objDiv = document.getElementById("chatroom");
+	objDiv.scrollTop = objDiv.scrollHeight;
+    }
+     
     function onOpen(){
         webSocket.send(JSON.stringify({chatRoomId : roomId,type:'ENTER',writer:nickname}));
     }
@@ -172,6 +193,10 @@ function enterkey() {
         data = e.data;
         chatroom = document.getElementById("chatroom");
         chatroom.innerHTML = chatroom.innerHTML + "<br>" + data;
+        
+        setTimeout(
+                scroll, 50
+               );
     }
     function onClose(){
         disconnect();

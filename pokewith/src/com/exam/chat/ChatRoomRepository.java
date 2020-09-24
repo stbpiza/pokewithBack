@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import lombok.EqualsAndHashCode;
 
@@ -32,9 +33,10 @@ public class ChatRoomRepository {
     	
         return chatRoomMap.get(id);
     }
+    
 
-    public ChatRoom createChatRoom(String name){ //새로운방 생성 메소드
-        ChatRoom chatRoom = ChatRoom.create(name);
+    public ChatRoom createChatRoom(@RequestBody ChatRoomForm form){ //새로운방 생성 메소드
+        ChatRoom chatRoom = ChatRoom.create(form);
         chatRoomMap.put(chatRoom.getRoomId(), chatRoom);
         System.out.println("key : " + chatRoom.getRoomId());
         System.out.println("방이름 " + chatRoom.getName());
