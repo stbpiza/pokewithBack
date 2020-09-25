@@ -1,6 +1,5 @@
 package com.exam.configuration;
 
-import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -8,7 +7,6 @@ import javax.servlet.ServletRegistration;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
 public class WebConfiguration implements WebApplicationInitializer {
@@ -28,9 +26,5 @@ public class WebConfiguration implements WebApplicationInitializer {
 
         ContextLoaderListener listener = new ContextLoaderListener(rootAppConfiguration);
         servletContext.addListener(listener);
-
-//        FilterRegistration.Dynamic filter = servletContext.addFilter("encodingFilter", CharacterEncodingFilter.class);
-//        filter.addMappingForServletNames(null, false, "dispathcer");
-//        filter.setInitParameter("encoding", "UTF-8");
     }
 }
