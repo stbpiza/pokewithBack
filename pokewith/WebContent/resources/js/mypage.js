@@ -217,7 +217,7 @@ function sendAjax(url, method, data, callback) {
 
 //GET USER INFORMATION
 function getUserInfo() {
-  const url = "/page";
+  const url = "/mypage";
 
   sendAjax(url, "GET", null, function (res) {
     let result = JSON.parse(res.response);
@@ -229,7 +229,7 @@ function getUserInfo() {
 function postUserInfo() {
   let inputData = userInfoInput;
   let jsonData = JSON.stringify(inputData);
-  const url = "/page";
+  const url = "/mypage";
 
   sendAjax(url, "POST", jsonData, function (res) {
     console.log("POST DATA: ", jsonData);
