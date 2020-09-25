@@ -233,7 +233,8 @@ function postUserInfo() {
 
   sendAjax(url, "POST", jsonData, function (res) {
     console.log("POST DATA: ", jsonData);
-    if (res == 1) {
+    console.log(res.response);
+    if (res.response == 1) {
       alert("Your information has been updated. 😉");
     } else {
       alert("Faild to update. 😣");

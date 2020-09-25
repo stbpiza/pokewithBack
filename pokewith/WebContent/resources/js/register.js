@@ -46,37 +46,72 @@ function handleRegister() {
     } else {
       userInfoInput.nickname1 = sendName;
       userInfoInput.friendCode1 = sendCode;
-      console.log("ajax ready :)");
-      registerAPI();
+      posrUserInfo();
     }
   }
 }
 // ADDITIONAL USER INFORMATION FOR POST REQUEST
 
-function registerAPI() {
+//AJAX REQUEST
+function sendAjax(url, method, data, callback) {
   const httpReq = new XMLHttpRequest();
-  const url = "/signup";
-
-  httpReq.open("POST", url, true);
-  console.log("good");
+  httpReq.open(method, url, true);
 
   httpReq.setRequestHeader("Access-Control-Allow-Headers", "*");
   httpReq.setRequestHeader("Content-type", "application/json");
   httpReq.setRequestHeader("Access-Control-Allow-Origin", "*");
-  console.log("ok");
 
   httpReq.onreadystatechange = function () {
-    console.log("test1");
-    console.log(httpReq.status);
-    if (httpReq.readyState === 4 && httpReq.status === "success") {
-      console.log("test2");
-      alert(httpReq.responseText);
+    if (httpReq.readyState === 4 && httpReq.status === 200) {
+      callback(httpReq);
     }
   };
 
-  console.log("DATA : " + JSON.stringify(userInfoInput));
-  httpReq.send(JSON.stringify(userInfoInput));
+  if (data != null) {
+    httpReq.send(data);
+  } else {
+    httpReq.send();
+  }
 }
+
+//POST USER INFORMATION
+
+function postUserInfo() {
+  let inputData = userInfoInput;
+  let jsonData = JSON.stringify(inputData);
+  const url = "/signup";
+
+  sendAjax(url, "POST", jsonData, function (res) {
+    console.log("POST DATA: ", jsonData);
+    console.log(res.response);
+    if (res.response == 1) {
+      alert("Your information has been registered. 😉");
+      window.location.href = "/";
+    } else {
+      alert("Faild to register. 😣");
+    }
+  });
+}
+
+// function registerAPI() {
+//   const httpReq = new XMLHttpRequest();
+//   const url = "/signup";
+
+//   httpReq.open("POST", url, true);
+
+//   httpReq.setRequestHeader("Access-Control-Allow-Headers", "*");
+//   httpReq.setRequestHeader("Content-type", "application/json");
+//   httpReq.setRequestHeader("Access-Control-Allow-Origin", "*");
+
+//   httpReq.onreadystatechange = function () {
+//     if (httpReq.readyState === 4 && httpReq.status === "success") {
+//       alert(httpReq.responseText);
+//     }
+//   };
+
+//   console.log("DATA : " + JSON.stringify(userInfoInput));
+//   httpReq.send(JSON.stringify(userInfoInput));
+// }
 
 //BINDING SINGLE EVENT LISTENER FOR EACH BUTTONS
 registerBtn.addEventListener("click", handleRegister);
