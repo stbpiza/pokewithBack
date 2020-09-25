@@ -140,7 +140,7 @@ public class FacebookController {
 		ss.setAttribute("nickname1", userBean.getNickname1());
 		//ss.setAttribute("u_like", userBean.getU_like());
 		//ss.setAttribute("u_hate", userBean.getU_hate());
-		return "index";
+		return "1";
 	}
 	
 	@RequestMapping(value="/logout", method=RequestMethod.GET) //테스트용

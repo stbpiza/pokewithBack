@@ -104,4 +104,36 @@ public class IndexController {
 		PostBean postBean = new PostBean();
 		return postmapper.getPostM(postBean);
 	}
+	
+	@ResponseBody
+	@GetMapping("/0")//메인페이지 게시물 출력
+	public List<PostBean> look0post(){
+		logger.info("/index/0 get 접속");
+		PostBean postBean = new PostBean();
+		return postmapper.get0Post(postBean);
+	}
+	
+	@ResponseBody
+	@GetMapping("/three/0")//메인페이지 게시물 출력
+	public List<PostBean> look0post3(){
+		logger.info("/index get 3/0 접속");
+		PostBean postBean = new PostBean();
+		return postmapper.get0Post3(postBean);
+	}
+
+	@ResponseBody
+	@GetMapping("/five/0")//메인페이지 게시물 출력
+	public List<PostBean> look0post5(){
+		logger.info("/index get 5/0 접속");
+		PostBean postBean = new PostBean();
+		return postmapper.get0Post5(postBean);
+	}
+	
+	@ResponseBody
+	@GetMapping("/mega/0")//메인페이지 게시물 출력
+	public List<PostBean> look0postm(){
+		logger.info("/index get m/0 접속");
+		PostBean postBean = new PostBean();
+		return postmapper.get0PostM(postBean);
+	}
 }

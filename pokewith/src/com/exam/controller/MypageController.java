@@ -42,6 +42,7 @@ public class MypageController {
 		return userBean;
 	}
 	
+	@ResponseBody
 	@PostMapping //유저정보수정
 	public String setUser(@RequestBody UserBean userBean, HttpServletRequest request) {
 		logger.info("/mypage post 접속"+ userBean);
@@ -51,6 +52,6 @@ public class MypageController {
 		logger.info("userid : "+ userBean.getUserId());
 		usermapper.reUser(userBean);
 		ss.setAttribute("nickname1", userBean.getNickname1());
-		return "mypage";
+		return "1";
 	}
 }

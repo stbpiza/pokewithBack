@@ -46,7 +46,7 @@ function handleRegister() {
     } else {
       userInfoInput.nickname1 = sendName;
       userInfoInput.friendCode1 = sendCode;
-      posrUserInfo();
+      postUserInfo();
     }
   }
 }

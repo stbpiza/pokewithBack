@@ -229,7 +229,6 @@ function showMyPost(resultData){
     chattingDiv.setAttribute("class", "chattingDiv");
     currentDiv.appendChild(chattingDiv);
 
-    try {
       //enter
       let chattingLink = document.createElement("a");
       chattingLink.href = '/rooms/' + resultData.chat;
@@ -241,30 +240,28 @@ function showMyPost(resultData){
 
       if(resultData.chat == null){
         //null일 때
-        chattingDiv.style.display = 'none';
+        chattingLink.style.display = 'none';
       }else{
         //null이 아닐 때
-        chattingDiv.style.display = 'block';
+        chattingLink.style.display = 'block';
       }
 
-    } catch (error) {
       //create
-      let chattingLink = document.createElement("a");
-      chattingLink.href = createChatting(resultData.chat);
-      chattingLink.className = 'chattingLink';
-      chattingLinkText = document.createTextNode("create Chatting!");
-      chattingLink.appendChild(chattingLinkText);
-      chattingDiv.appendChild(chattingLink);  
+      let chattingLink2 = document.createElement("a");
+      chattingLink2.href = createChatting(resultData.chat);
+      chattingLink2.className = 'chattingLink';
+      chattingLinkText2 = document.createTextNode("create Chatting!");
+      chattingLink2.appendChild(chattingLinkText2);
+      chattingDiv.appendChild(chattingLink2);  
       currentDiv.appendChild(startDiv);
 
       if(resultData.chat == null){
         //null일 때
-        chattingDiv.style.display = 'none';
+        chattingLink2.style.display = 'none';
       }else{
         //null이 아닐 때
-        chattingDiv.style.display = 'block';
+        chattingLink2.style.display = 'block';
       }
-    }
   }
 }
       
