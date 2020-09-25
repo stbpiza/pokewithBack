@@ -1,18 +1,3 @@
-//INITIALIZE DUMMY DATA FOR LOCAL TEST
-
-// const userInfoData = {
-//   nickname1: "2eebug",
-//   friendCode1: "617654262236",
-//   nickname2: "minos15",
-//   friendCode2: "315211115555",
-//   nickname3: "lee7",
-//   friendCode3: "413525469663",
-//   nickname4: "",
-//   friendCode4: "",
-//   nickname5: "",
-//   friendCode5: "",
-// };
-
 let userInfoInput = {
   nickname1: "",
   friendCode1: "",
@@ -29,7 +14,6 @@ let userInfoInput = {
 const sendBtn = document.querySelector(".send-btn");
 const userInfo = document.querySelector(".user-info");
 const profile = document.querySelector(".profile-name");
-const errMsg = document.querySelector(".err-msg");
 const collapseItem = document.querySelectorAll(".collapse-item");
 
 //BINDING SAVE BUTTON CLICK EVENT
@@ -38,20 +22,21 @@ function saveUserInfo() {
   const name = document.querySelectorAll(".nickName");
   const code = document.querySelectorAll(".friendCode");
 
-  console.log(errMsg);
-
   const nameRgx = RegExp(/^[A-Za-z0-9_\-]{5,20}$/);
   const codeRgx = RegExp(/^[0-9_\-]{12}$/);
 
   for (let i = 0; i < pointer.childNodes.length; i++) {
     if (i % 2 == 1) {
       pointer.childNodes[i].classList.add("d-none");
+      pointer.nextSibling.childNodes[1].classList.add("d-none");
     } else {
       pointer.childNodes[i].classList.remove("d-none");
+      pointer.nextSibling.childNodes[0].classList.remove("d-none");
     }
   }
 
   //CHECK INPUT VALUES WITH REGULAR EXPRESSTION
+  const errMsg = pointer.parentNode.nextSibling;
   const selected = pointer.childNodes;
   const chkName = nameRgx.test(selected[1].value);
   if (!chkName) {
@@ -81,8 +66,6 @@ function saveUserInfo() {
   userInfoInput.friendCode3 = code[2].innerText;
   userInfoInput.friendCode4 = code[3].innerText;
   userInfoInput.friendCode5 = code[4].innerText;
-
-  console.log("UPDATE DATA: ", userInfoInput);
 }
 //BINDING EDIT BUTTON CLICK EVENT
 function editUserInfo() {
@@ -90,8 +73,10 @@ function editUserInfo() {
   for (let i = 0; i < pointer.childNodes.length; i++) {
     if (i % 2 == 1) {
       pointer.childNodes[i].classList.remove("d-none");
+      pointer.nextSibling.childNodes[1].classList.remove("d-none");
     } else {
       pointer.childNodes[i].classList.add("d-none");
+      pointer.nextSibling.childNodes[0].classList.add("d-none");
     }
   }
 }
@@ -99,11 +84,13 @@ function editUserInfo() {
 //DISPLAY USER INFORMATION FROM GET REQUEST
 function paintUserInfo(data) {
   let userInfoGet = data;
-  // console.log("PAINT DATA:", userInfoGet);
 
   for (let i = 1; i < 6; i++) {
-    const newList = document.createElement("li");
-    newList.setAttribute("class", "d-flex justify-content-around align-items-center user-info-list");
+    const idList = document.createElement("li");
+    idList.setAttribute("class", "d-flex justify-content-around align-items-center user-info-list");
+    const errList = document.createElement("li");
+    errList.setAttribute("class", "d-flex justify-content-around align-items-center user-info-list err-msg");
+
     const numberSpan = document.createElement("span");
 
     const infoDiv = document.createElement("div");
@@ -143,18 +130,19 @@ function paintUserInfo(data) {
     editBtn.addEventListener("click", editUserInfo);
 
     btnDiv.appendChild(saveBtn);
-    saveBtn.setAttribute(`class`, `del-btn btn btn-default btn-sm`);
+    saveBtn.setAttribute(`class`, `del-btn btn btn-default btn-sm d-none`);
     saveBtn.innerHTML = `<i class="fas fa-check"></i>`;
 
     saveBtn.addEventListener("click", saveUserInfo);
 
     btnDiv.setAttribute(`class`, `d-flex flex-column justify-content-between align-items-center`);
 
-    newList.appendChild(numberSpan);
-    newList.appendChild(infoDiv);
-    newList.appendChild(btnDiv);
+    idList.appendChild(numberSpan);
+    idList.appendChild(infoDiv);
+    idList.appendChild(btnDiv);
 
-    userInfo.appendChild(newList);
+    userInfo.appendChild(idList);
+    userInfo.appendChild(errList);
   }
 
   let name = document.querySelectorAll(".nickName");
@@ -197,7 +185,6 @@ function paintUserInfo(data) {
 // LOAD DATA FROM GET REQUEST
 function loadUserInfo(data) {
   const userInfoGet = data;
-  // console.log("LOAD DATA: ", userInfoGet);
   profile.innerText = userInfoGet.nickname1;
   profile.setAttribute("style", "margin-top: 10px");
   paintUserInfo(data);
@@ -210,38 +197,30 @@ sendBtn.addEventListener("click", postUserInfo);
 function sendAjax(url, method, data, callback) {
   const httpReq = new XMLHttpRequest();
   httpReq.open(method, url, true);
-  // console.log("good");
 
   httpReq.setRequestHeader("Access-Control-Allow-Headers", "*");
   httpReq.setRequestHeader("Content-type", "application/json");
   httpReq.setRequestHeader("Access-Control-Allow-Origin", "*");
-  // console.log("ok");
 
   httpReq.onreadystatechange = function () {
-    // console.log("들어옴1");
     if (httpReq.readyState === 4 && httpReq.status === 200) {
-      // console.log("들어옴2");
-      // console.log(httpReq.responseText);
       callback(httpReq);
     }
   };
 
   if (data != null) {
-    // console.log("POST방식");
     httpReq.send(data);
   } else {
-    // console.log("GET방식");
     httpReq.send();
   }
 }
 
 //GET USER INFORMATION
 function getUserInfo() {
-  const url = "/mypage";
+  const url = "/page";
 
   sendAjax(url, "GET", null, function (res) {
     let result = JSON.parse(res.response);
-    // console.log("GET DATA: ", result);
     loadUserInfo(result);
   });
 }
@@ -250,12 +229,20 @@ function getUserInfo() {
 function postUserInfo() {
   let inputData = userInfoInput;
   let jsonData = JSON.stringify(inputData);
-  const url = "/mypage";
+  const url = "/page";
 
-  sendAjax(url, "POST", jsonData, function () {
+  sendAjax(url, "POST", jsonData, function (res) {
     console.log("POST DATA: ", jsonData);
+    if (res == 1) {
+      alert("Your information has been updated. 😉");
+    } else {
+      alert("Faild to update. 😣");
+    }
   });
 }
 
-// window.addEventListener("load", loadUserInfo);
+// USING AJAX CALL
 window.addEventListener("load", getUserInfo);
+
+// CHECK FUNCTION ON LOCAL TEST
+// window.addEventListener("load", loadUserInfo);

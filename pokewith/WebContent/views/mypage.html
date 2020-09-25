@@ -96,7 +96,7 @@
                     <div th:if="${session.userId != null}" class="dropdown-divider"></div>
                     <a th:if="${session.userId != null}" class="dropdown-item" href="/page">My page</a>
                     <div th:if="${session.userId != null}" class="dropdown-divider"></div>
-                    	<a th:if="${session.userId != null}" class="dropdown-item" href="/logout">Logout</a>
+                    <a th:if="${session.userId != null}" class="dropdown-item" href="/logout">Logout</a>
                   </div>
                 </li>
               </ul>
@@ -138,13 +138,11 @@
             <!-- Content Row -->
 
             <div class="row">
-
               <div class="container-fluid">
                 <!-- post -->
                 <div class="card shadow mb-4 add-user-area">
                   <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-black">My Account</h6>
-                    
                   </div>
                   <div class="card-body">
                     <div class="d-flex flex-column justify-content-center align-items-center">
@@ -157,22 +155,18 @@
                     <div class="card">
                       <!-- Default panel contents -->
                       <div class="card-header d-flex justify-content-between align-items-center">
-                        <div>
-                          User Information
-                        </div> 
+                        <div>User Information</div>
                         <span class="err-msg"></span>
-                      </div>                 
+                      </div>
                       <div class="card-body d-flex justify-content-center align-items-center">
-                        <ul class="user-info">
-                          
-                        </ul>
+                        <ul class="user-info"></ul>
                       </div>
                     </div>
                   </div>
                   <hr class="sidebar-divider" />
                   <div class="input-container card-body d-flex flex-column justify-content-center">
                     <div class="msg-div"></div>
-                    <div class="d-flex align-items-center" style="margin: 0 auto;">
+                    <div class="d-flex align-items-center" style="margin: 0 auto">
                       <button class="send-btn d-sm-block btn btn-lg btn-primary shadow-sm rounded-pill">Save</button>
                     </div>
                   </div>
