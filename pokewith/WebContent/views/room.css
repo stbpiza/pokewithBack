@@ -1,0 +1,21 @@
+html {
+  overflow: hidden;
+}
+
+#chatroom {
+  overflow: auto;
+  overflow-x: hidden;
+  width: 400px;
+  height: 600px;
+  border: 1px solid;
+  background-color: #9bbbd4;
+}
+
+#message {
+  height: 30px;
+  width: 340px;
+}
+
+#timestamp {
+  border: 20px solid;
+}

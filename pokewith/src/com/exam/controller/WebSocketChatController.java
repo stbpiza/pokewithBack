@@ -29,6 +29,7 @@ public class WebSocketChatController extends TextWebSocketHandler {
 	    @Override
 	    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 	        log.info("메세지 전송 = {} : {}",session,message.getPayload());
+	        System.out.println(session + message.getPayload());
 	        String msg = message.getPayload();
 	        ChatMessage chatMessage = objectMapper.readValue(msg,ChatMessage.class);
 	        ChatRoom chatRoom = chatRoomRepository.findRoomById(chatMessage.getChatRoomId());
