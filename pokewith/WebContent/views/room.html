@@ -1,133 +1,186 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>채팅 서비스</title>
-    <!-- vscode 확인용 -->
-    <!-- <link rel="stylesheet" href="../resources/room.css" type="text/css" /> -->
-    <link rel="stylesheet" href="/room.css" type="text/css" /> 
-    <link rel="stylesheet" href="/webfont.css" />
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>채팅 서비스</title>
+<!-- vscode 확인용 -->
+<!-- <link rel="stylesheet" href="../resources/room.css" type="text/css" /> -->
+<link rel="stylesheet" href="/room.css" type="text/css" />
+<link rel="stylesheet" href="/webfont.css" />
 
-    <!-- Bootstrap core CSS -->
-    <!-- <link rel="stylesheet"
+<!-- Bootstrap core CSS -->
+<!-- <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
 
-    <!-- 부가적인 테마 -->
-    <!-- <link rel="stylesheet"
+<!-- 부가적인 테마 -->
+<!-- <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"> -->
 
-    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-    <!-- <script
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<!-- <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> -->
-  </head>
-  <body>
-    <!-- <input type="text" id="nickname" class="form-inline"
+</head>
+<body>
+	<!-- <input type="text" id="nickname" class="form-inline"
 		placeholder="닉네임을 입력해주세요용" required autofocus>
 	<button class="btn btn-primary" id="name">확인</button> -->
-    <label for="roomId" class="label label-default">방 번호</label>
-    <label th:text="*{room.roomId}" id="roomId" class="form-inline"></label>
-    <br />
-    <!-- <label for="roomName" class="label label-default">방 이름</label>
+	<label for="roomId" class="label label-default">방 번호</label>
+	<label th:text="*{room.roomId}" id="roomId" class="form-inline"></label>
+	<br />
+	<!-- <label for="roomName" class="label label-default">방 이름</label>
 	<label th:text="*{room.name}" id="roomName" class="form-inline"></label> -->
-    <div class="container">
-      <div id="chatroom"></div>
+	<div class="container">
 
-      <div class="option-div">
-        <select
-          id="message"
-          required
-          placeholder="Please select"
-          autofocus
-          onload="getTime()"
-        >
-          <option
-            value="<img src = https://t1.daumcdn.net/cfile/tistory/251FF24A5916916913 width=200px>"
-          >
-            야돈
-          </option>
-          <option
-            value="<img src = https://t1.daumcdn.net/cfile/tistory/99BDDD475AE75AD90B width=200px>"
-          >
-            자는 잠만보
-          </option>
-          <option
-            value="<img src = https://t1.daumcdn.net/cfile/tistory/99511F435AE75A120B width=200px>"
-          >
-            기분좋은아차모
-          </option>
-          <option
-            value="<img src = https://t1.daumcdn.net/cfile/tistory/99BE76495AE75A240C width=200px>"
-          >
-            파이리도망
-          </option>
-          <option
-            value="<img src = https://t1.daumcdn.net/cfile/tistory/99C6A1495AE75A2A0B width=200px>"
-          >
-            선그라스 꼬부기
-          </option>
-          <option
-            value="<img src = http://192.168.1.97:8080/img/200.gif width=200px>"
-          >
-            풍둔
-          </option>
-          <option
-            value="<img src = http://192.168.1.97:8080/img/200-2.gif width=200px>"
-          >
-            하이파이브
-          </option>
-          <option
-            value="<img src = http://192.168.1.97:8080/img/giphy.gif width=200px>"
-          >
-            피꺼츄
-          </option>
-          <option
-            value="<img src = http://192.168.1.97:8080/img/200w.gif width=200px>"
-          >
-            아이 신나
-          </option>
-          <option
-            value="<img src = http://192.168.1.97:8080/img/200w-2.gif width=200px>"
-          >
-            ㅠㅠ슬퍼 펭도리
-          </option>
-          <option
-            value="<img src = http://192.168.1.97:8080/img/200-3.gif width=200px>"
-          >
-            피카츄 훔치기
-          </option>
-          <option
-            value="<img src = http://192.168.1.97:8080/img/200w-3.gif width=200px>"
-          >
-            피카츄 사탕
-          </option>
-          <option
-            value="<img src = http://192.168.1.97:8080/img/200-4.gif width=200px>"
-          >
-            캬캬 꼬부기
-          </option>
-          <option
-            value="<img src = http://192.168.1.97:8080/img/200w-4.gif width=200px>"
-          >
-            꺄항
-          </option>
-        </select>
-        <button class="sendbutton btn-style" id="send">Send</button>
-      </div>
+		<div id="chatroom" class="chatroom-div">
 
-      <div id="divButtonCreateRoom">
-        <button
-          id="Exit"
-          type="button"
-          onclick="disconnect()"
-          class="btn-style exit-btn"
-        >
-          Exit
-        </button>
-      </div>
-    </div>
+			<div id="divButtonCreateRoom" class="exit-div">
+				<button id="Exit" class="exit-btn common-btn" type="button"
+					onclick="disconnect()">
+					<i class="fas fa-2x fa-times"></i>
+				</button>
+			</div>
 
-    <script th:inline="javascript">
+
+		</div>
+
+
+
+		<div class="select-area">
+			<div class="option-div">
+				<div class="chat-select">
+					<select id="message" class="message-box" required autofocus>
+
+						<option
+							value="<img src = http://192.168.1.97:8080/img/go.jpeg class=img-mid>">
+							Go.</option>
+						<option
+							value="<img src = http://192.168.1.97:8080/img/hello.jpeg class=img-mid>">
+							Hello.</option>
+						<option
+							value="<img src = http://192.168.1.97:8080/img/no.jpeg class=img-mid>">
+							No.</option>
+					</select>
+				</div>
+				<div class="chat-send">
+					<button class="send-btn chat-btn common-btn" id="send">
+						<i class="fas fa-comments"></i> <span>Chat</span>
+					</button>
+				</div>
+			</div>
+			<div class="option-div">
+				<div class="code-select">
+					<select id="code1" class="message-box" required
+						placeholder="Please select" autofocus onload="getTime()">
+						<option
+							value="<img src = http://192.168.1.97:8080/img/isang.png class=img-sm>"
+							title="http://icons.iconarchive.com/icons/hopstarter/square-flags/16/South-Korea-Flag-icon.png"
+							>
+							이상해씨</option>
+						<option
+							value="<img src = http://192.168.1.97:8080/img/tuttle.png class=img-sm>">
+							꼬부기</option>
+						<option
+							value="<img src = http://192.168.1.97:8080/img/pa.png class=img-sm>">
+							파이리</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/pika.png class=img-sm>">
+							피카츄</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/butter.png class=img-sm>">
+							버터풀</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/jam.png class=img-sm>">
+							잠만보</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/ggoret.png class=img-sm>">
+							꼬렛</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/googoo.png class=img-sm>">
+							구구</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/nya.png class=img-sm>">
+							나옹</option>
+					</select> <select id="code2" class="message-box" required
+						placeholder="Please select" autofocus onload="getTime()">
+						<option
+							value="<img src = http://192.168.1.97:8080/img/isang.png class=img-sm>">
+							이상해씨</option>
+						<option
+							value="<img src = http://192.168.1.97:8080/img/tuttle.png class=img-sm>">
+							꼬부기</option>
+						<option
+							value="<img src = http://192.168.1.97:8080/img/pa.png class=img-sm>">
+							파이리</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/pika.png class=img-sm>">
+							피카츄</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/butter.png class=img-sm>">
+							버터풀</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/jam.png class=img-sm>">
+							잠만보</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/ggoret.png class=img-sm>">
+							꼬렛</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/googoo.png class=img-sm>">
+							구구</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/nya.png class=img-sm>">
+							나옹</option>
+					</select> <select id="code3" class="message-box" required
+						placeholder="Please select" autofocus onload="getTime()">
+						<option
+							value="<img src = http://192.168.1.97:8080/img/isang.png class=img-sm>">
+							이상해씨</option>
+						<option
+							value="<img src = http://192.168.1.97:8080/img/tuttle.png class=img-sm>">
+							꼬부기</option>
+						<option
+							value="<img src = http://192.168.1.97:8080/img/pa.png class=img-sm>">
+							파이리</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/pika.png class=img-sm>">
+							피카츄</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/butter.png class=img-sm>">
+							버터풀</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/jam.png class=img-sm>">
+							잠만보</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/ggoret.png class=img-sm>">
+							꼬렛</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/googoo.png class=img-sm>">
+							구구</option>
+							<option
+							value="<img src = http://192.168.1.97:8080/img/nya.png class=img-sm>">
+							나옹</option>
+					</select>
+				</div>
+				<div class="code-send">
+					<button class="send-btn code-btn common-btn" id="codesend">
+						<i class="fas fa-unlock-alt"></i> <span class="btn-label">Code</span>
+					</button>
+				</div>
+			</div>
+			<!-- End of option-div -->
+		</div>
+		<!-- End of select-area -->
+	</div>
+	<!-- End of container -->
+
+	<script src="https://kit.fontawesome.com/04da709f7e.js"
+		crossorigin="anonymous"></script>
+
+
+
+
+
+	<script th:inline="javascript">
 
       //엔터키를 통해 send함
       function enterkey() {
@@ -180,11 +233,19 @@
               	/* document.getElementById("nickname1").value; */ //여기를 세션값으로 바꾸면 될거같은데?
               /* document.getElementById("nickname").style.display = "none"; */
               /* document.getElementById("name").style.display = "none"; */
-              connect(); }
+              connect(); 
+           }
          /*  }) */
+         
+         /*  binding chat-btn event */
           document.getElementById("send").addEventListener("click",function(){
               send();
-          })
+          });
+          
+          /* binding codesend-btn event */
+          document.getElementById("codesend").addEventListener("click", function(){
+        	  codesend();
+          });
           function connect(){
               webSocket = new WebSocket("ws://192.168.1.97:8080/chat");
               webSocket.onopen = onOpen;
@@ -212,10 +273,14 @@
               let now2 = today.toLocaleTimeString();
               let now = "<span class=timestamp>" + now2 + "</span>";
               msg = document.getElementById("message").value;
+              if(msg != "") {
               msg += now;
               console.log(msg);
              webSocket.send(JSON.stringify({chatRoomId : roomId,type:'CHAT',writer:nickname,message : msg}));
               document.getElementById("message").value = "";
+              } else {
+            	  alert("choose option :(");
+              }
 
 
               setTimeout(
@@ -223,6 +288,32 @@
              );
 
              }
+             
+             function codesend(){
+                   
+                   code1 = document.getElementById("code1").value;
+                   code2 = document.getElementById("code2").value;
+                   code3 = document.getElementById("code3").value;
+                   
+                   if(code1 && code2 && code3 != "") {
+                   let result = code1 + code2 + code3;
+                	   
+                	
+                   console.log(result);
+                  webSocket.send(JSON.stringify({chatRoomId : roomId,type:'CHAT',writer:nickname,message : result}));
+                   document.getElementById("code1").value = "";
+                   document.getElementById("code2").value = "";
+                   document.getElementById("code3").value = "";
+                   } else {
+                 	  alert("choose option :(");
+                   }
+
+
+                   setTimeout(
+                   scroll, 100
+                  );
+
+                  }
 
           function scroll(){
           var objDiv = document.getElementById("chatroom");
@@ -245,5 +336,5 @@
               disconnect();
           }
     </script>
-  </body>
+</body>
 </html>
