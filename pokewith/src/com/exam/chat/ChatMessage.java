@@ -1,9 +1,8 @@
 package com.exam.chat;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter @Setter
+@Data
 public class ChatMessage {
 	
 	private String chatRoomId;

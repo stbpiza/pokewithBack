@@ -6441,6 +6441,10 @@ input:focus, button:focus{
   border : 4px solid yellowgreen;
 }
 
+.nick1 {
+	margin-top : 20px;
+}
+
 .hide-link:active, .hide-link:hover, .delete:active, .delete:hover {
   text-decoration: none;
   color: #36b9cc;
@@ -6453,6 +6457,8 @@ input:focus, button:focus{
 .checked {
   margin-left: 10px;
   margin-right: 10px;
+  word-break: keep-all;
+  display: inline-block;
 }
 
 .comment-wrap{
@@ -6470,13 +6476,13 @@ input:focus, button:focus{
 }
 
 .ending {
-  background-image: URL( "/img/backImg.png");
+  background-image: URL( "/resources/img/backImg.png");
   background-size: 100%;
   opacity: 0.6;
 }
 
 .raiding{
-  background-image: URL( "/img/backImg02.png");
+  background-image: URL( "/resources/img/backImg02.png");
   background-size: 100%;
   opacity: 0.6;
 }
@@ -6484,16 +6490,17 @@ input:focus, button:focus{
 .endBody{
   margin : 0 auto;
   width: 80%;
-  height: 500px;
-  background-image: URL( "/img/backImg.png");
-  background-size: 100%;
+  height: 100%;
+  background-image: URL( "/resources/img/backImg.png");
+  background-size: cover;
   opacity: 0.4;
 }
 
 .endStr{
   text-align: center;
   margin-top: 40%;
-  font-size: 50px;
+  margin-bottom: 40%;
+  font-size: 40px;
   color: #000;
 }
 
@@ -6807,12 +6814,12 @@ button.bg-dark:focus {
 
 @media(min-width: 360px){
   .ending {
-    background-image: URL( "/img/backImg360.png");
+    background-image: URL( "/resources/img/backImg360.png");
     background-size: cover;
   }
 
   .raiding{
-    background-image: URL( "/img/backImg02_360.png");
+    background-image: URL( "/resources/img/backImg02_360.png");
     background-size: 100%;
     opacity: 0.6;
   }
@@ -6829,6 +6836,14 @@ button.bg-dark:focus {
   .comSub {
     margin-top : 50px;
   }
+  
+  .checked {
+  margin-left: 10px;
+  margin-right: 10px;
+  word-break: keep-all;
+  display: block;
+  }
+  
 }
 
 
@@ -6862,12 +6877,12 @@ button.bg-dark:focus {
   }
 
   .ending {
-    background-image: URL( "/img/backImg500.png");
+    background-image: URL( "/resources/img/backImg500.png");
     background-size: cover;
   }
 
   .raiding {
-    background-image: URL( "/img/backImg02_500.png");
+    background-image: URL( "/resources/img/backImg02_500.png");
     background-size: cover;
   }
 
@@ -6906,19 +6921,21 @@ button.bg-dark:focus {
   }
 
   .ending {
-    background-image: URL( "/img/backImg500.png");
+    background-image: URL( "/resources/img/backImg500.png");
     background-size: cover;
   }
 
   .raiding {
-    background-image: URL( "/img/backImg02_768.png");
+    background-image: URL( "/resources/img/backImg02_768.png");
     background-size: cover;
   }
 
   .comSub {
     margin-top : 50px;
   }
+
 }
+
 
 @media (min-width: 992px) {
   .d-lg-none {
@@ -6950,12 +6967,12 @@ button.bg-dark:focus {
   }
 
   .ending {
-    background-image: URL( "/img/backImg990.png");
+    background-image: URL( "/resources/img/backImg990.png");
     background-size: cover;
   }
 
   .raiding {
-    background-image: URL( "/img/backImg02_990.png");
+    background-image: URL( "/resources/img/backImg02_990.png");
     background-size: cover;
   }
   

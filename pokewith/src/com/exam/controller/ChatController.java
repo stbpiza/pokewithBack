@@ -53,6 +53,7 @@ public class ChatController {
 			else {
 				ChatRoomForm form = new ChatRoomForm();
 				form.setChat(id);
+				form.setName(postBean.getUserId());
 				chatRoomRepository.createChatRoom(form);
 				ChatRoom room = chatRoomRepository.findRoomById(id);
 				model.addAttribute("room", room);
@@ -68,15 +69,15 @@ public class ChatController {
 		}
 	}
 	
-	@ResponseBody
-	@DeleteMapping("/room/delete/{id}")
-	public String deleteRoom(@PathVariable String id, Model model) {
-		logger.info("/room/delete/{id} 접속");
-		ChatRoom room = new ChatRoom();
-		room.setRoomId(id);
-		chatRoomRepository.deleteChatRoom(room);
-		return "1";
-	}
+//	@ResponseBody
+//	@DeleteMapping("/room/delete/{id}")
+//	public String deleteRoom(@PathVariable String id, Model model) {
+//		logger.info("/room/delete/{id} 접속");
+//		ChatRoom room = new ChatRoom();
+//		room.setRoomId(id);
+//		chatRoomRepository.deleteChatRoom(room);
+//		return "1";
+//	}
 	
 
 

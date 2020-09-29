@@ -26,7 +26,6 @@ public class ChatRoom {
 		chatRoom.roomId = form.getChat();
 //		chatRoom.roomId = UUID.randomUUID().toString();
 		chatRoom.name = form.getName();
-		System.out.println("테스트" + form);
 		return chatRoom;
 		
 	}

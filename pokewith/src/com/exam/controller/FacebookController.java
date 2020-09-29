@@ -42,17 +42,17 @@ public class FacebookController {
 	@Autowired
 	UserMapper usermapper;
 	
-	@RequestMapping(value="/sign", method= {RequestMethod.GET, RequestMethod.POST})
-	public String join(HttpServletResponse response, Model model) {
-		
-		OAuth2Operations oauthOperations = connectionfactory.getOAuthOperations();
-		String facebook_url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, oAuth2Parameters);
-		
-		model.addAttribute("facebook_url", facebook_url);
-		logger.info("/facebook" + facebook_url);
-		
-		return "join";
-	}
+//	@RequestMapping(value="/sign", method= {RequestMethod.GET, RequestMethod.POST})
+//	public String join(HttpServletResponse response, Model model) {
+//		
+//		OAuth2Operations oauthOperations = connectionfactory.getOAuthOperations();
+//		String facebook_url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, oAuth2Parameters);
+//		
+//		model.addAttribute("facebook_url", facebook_url);
+//		logger.info("/facebook" + facebook_url);
+//		
+//		return "join";
+//	}
 	
 
 	
@@ -86,7 +86,7 @@ public class FacebookController {
 				logger.info("유저 name : " + userProfile.getName());
 				HttpSession session = request.getSession(true);
 				session.setMaxInactiveInterval(-1);
-				session.setAttribute("userId",userProfile.getId());
+				session.setAttribute("tuserId",userProfile.getId());
 			}
 			catch (MissingAuthorizationException e) {
 				e.printStackTrace();
@@ -101,7 +101,7 @@ public class FacebookController {
 	@RequestMapping(value="/check", method= {RequestMethod.GET, RequestMethod.POST}) //회원유무체크
 	public String join(UserBean userBean, HttpServletResponse response, HttpServletRequest request) {
 		HttpSession ss = request.getSession();
-		String userId = (String)ss.getAttribute("userId");
+		String userId = (String)ss.getAttribute("tuserId");
 		userBean.setUserId(userId);
 		logger.info("userid : " + userId);
 		for(UserBean userBean2: usermapper.getUser(userBean)) {
@@ -110,16 +110,16 @@ public class FacebookController {
 		logger.info("bean nickname1 : " + userBean.getNickname1());
 		if (userBean.getNickname1()==null) {
 			return "register";
-			//return "redirect:http://192.168.1.88:5502/register.html";
 		}
 		else {
+			ss.removeAttribute("tuserId");
+			ss.setAttribute("userId", userBean.getUserId());
 			ss.setAttribute("nickname1", userBean.getNickname1());
 			//ss.setAttribute("u_like", userBean.getU_like());
 			//ss.setAttribute("u_hate", userBean.getU_hate());
 		}
 		
-		return "index";
-		//return "forward:http://192.168.1.88:5502/index.html";
+		return "redirect:/";
 	}
 	
 	
@@ -127,7 +127,7 @@ public class FacebookController {
 	@RequestMapping(value="/signup", method= RequestMethod.POST, produces="application/json; charset=utf8") //회원가입
 	public String newsign(@RequestBody UserBean userBean, HttpServletResponse response, HttpServletRequest request) {
 		HttpSession ss = request.getSession();
-		String userId = (String) ss.getAttribute("userId");
+		String userId = (String) ss.getAttribute("tuserId");
 
 		logger.info("userId : " + userId);
 		logger.info(userBean);
@@ -137,31 +137,20 @@ public class FacebookController {
 		for(UserBean userBean2: usermapper.getUser(userBean)) {
 			userBean = userBean2;
 		}
+		ss.removeAttribute("tuserId");
+		ss.setAttribute("userId", userBean.getUserId());
 		ss.setAttribute("nickname1", userBean.getNickname1());
 		//ss.setAttribute("u_like", userBean.getU_like());
 		//ss.setAttribute("u_hate", userBean.getU_hate());
 		return "1";
 	}
 	
-	@RequestMapping(value="/logout", method=RequestMethod.GET) //테스트용
+	@RequestMapping(value="/logout", method=RequestMethod.GET) 
 	public String logout(HttpServletRequest request) {
 		HttpSession ss = request.getSession();
 		ss.removeAttribute("userId");
 		ss.removeAttribute("nickname1");
 		return "redirect:/";
-	}
-	
-	
-	@RequestMapping(value="/testlog", method= {RequestMethod.GET, RequestMethod.POST}) //테스트용 로그인
-	public String testlogin(UserBean userBean, HttpServletResponse response, HttpServletRequest request) {
-		logger.info("/testlog 접속");
-		logger.info(userBean);
-		HttpSession session = request.getSession(true);
-		session.setMaxInactiveInterval(-1);
-		session.setAttribute("userId",userBean.getUserId());
-		logger.info("userId : " + userBean.getUserId());
-		
-		return "testlogin";
 	}
 	
 

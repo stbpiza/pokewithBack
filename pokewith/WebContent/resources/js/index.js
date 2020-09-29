@@ -1,127 +1,4 @@
 
-//Post 더미 데이터
-const postData = [
-  { p_id : 1,
-    nickname1 : 'rayra',
-    u_like : '20',
-    u_hate : '10',
-    pokemon : '이상해씨',
-    raidLevel : 1,
-    startTime : '03:30',
-    endTime : '04:15',
-    minLevel : 20,
-    nPass : 3,
-    rPass : 0,
-    p_end : 0},
-
-  { p_id : 2,
-    nickname1 : 'rora',
-    u_like : '24',
-    u_hate : '10',
-    pokemon : '리자몽',
-    raidLevel : 3,
-    startTime : '03:30',
-    endTime : '04:15',
-    minLevel : 30,
-    nPass : 0,
-    rPass : 1,
-    p_end : 0 },
-
-  { p_id : 3,
-    nickname1 : '야돈',
-    u_like : '11',
-    u_hate : '10',
-    pokemon : '리자몽',
-    raidLevel : 5,
-    startTime : '03:30',
-    endTime : '04:15',
-    minLevel : 40,
-    nPass : 5,
-    rPass : 0,
-    p_end : 1 },
-
-  { p_id : 4,
-    nickname1 : 'maylin',
-    u_like : '21',
-    u_hate : '15',
-    pokemon : '히드런',
-    raidLevel : 'mega',
-    startTime : '03:30',
-    endTime : '04:15',
-    minLevel : 40,
-    nPass : 3,
-    rPass : 1,
-    p_end : 1 },
-]
-
-const commentData = [
-  { "c_id": "1",
-    "p_id": "1",
-    "userId": "1668589466621909",
-    "checkNum": "12",
-    "c_end": "0",
-    "nickname1": "2eeebug",
-    "friendCode1": "617654262236",
-    "nickname2": null,
-    "friendCode2": null,
-    "nickname3": null,
-    "friendCode3": null,
-    "nickname4": null,
-    "friendCode4": null,
-    "nickname5": null,
-    "friendCode5": null,
-    "u_like": "88",
-    "u_hate": "0"
-  },
-  { "c_id": "2",
-    "p_id": "1",
-    "userId": "1649416911892763",
-    "checkNum": "1",
-    "c_end": "0",
-    "nickname1": "fdfd",
-    "friendCode1": "123412341234",
-    "nickname2": null,
-    "friendCode2": null,
-    "nickname3": null,
-    "friendCode3": null,
-    "nickname4": null,
-    "friendCode4": null,
-    "nickname5": null,
-    "friendCode5": null,
-    "u_like": "3",
-    "u_hate": "0"
-  },
-  { "c_id": "3",
-    "p_id": "1",
-    "userId": "2649416911892763",
-    "checkNum": "134",
-    "c_end":"0",
-    "nickname1": "fdfddd",
-    "friendCode1": "234545671234",
-    "nickname2": "dgdfde",
-    "friendCode2": "234545671234",
-    "nickname3": "dsgsdffddd",
-    "friendCode3": "134545671234",
-    "nickname4": "dsgsdfd",
-    "friendCode4": "134645171234",
-    "nickname5": "dsgs3",
-    "friendCode5": "112464517123",
-    "u_like":"3",
-    "u_hate":"0"
-  },
-]
-
-//밖에서 ajax 코드를 빼고
-//response 값을 받아서
-/*
-app
-ajax data 
-const result = response
-
-view.allPostHtml(result, n)
-*/
-
-
 //sendAjax() : ajax 연결 (POST/GET)
 function sendAjax(url, method, data, callback){
   var httpReq = new XMLHttpRequest();
@@ -186,23 +63,24 @@ function allPostHtml(requiredData, n){
   startDiv.appendChild(cardDiv);
 
   if(requiredData[n].raidLevel == '1') {
-      str = "<img src = 'img/1.PNG' style='width:50px'>"
+      str = "<img src = '/resources/img/1.png' style='width:50px'>"
   } else if(requiredData[n].raidLevel == '3') {
-      str = "<img src = 'img/3.PNG' style='width:50px'>"
+      str = "<img src = '/resources/img/3.png' style='width:50px'>"
   } else if(requiredData[n].raidLevel == '5') {
-      str = "<img src = 'img/5.PNG' style='width:50px'>"
+      str = "<img src = '/resources/img/5.png' style='width:50px'>"
   } else {
-      str = "<img src = 'img/mega.PNG' style='width:50px'>"
+      str = "<img src = '/resources/img/mega.png' style='width:50px'>"
   }
   
   cardDiv.innerHTML += '<input type="hidden" id="postId" name="postId" value="'+ requiredData[n].p_id +'">';
-  cardDiv.innerHTML += '<p> Pokemon : ' + requiredData[n].pokemon+'</p>';
+  cardDiv.innerHTML += '<p> Pokemon : <img src="/resources/img/pokemon/150.png" width="150px" /></p>';
+  //cardDiv.innerHTML += '<p> Pokemon : <img src="/resources/img/pokemon/'+resultData[n].pokemon+'.png" width="150px" /></p>';
   cardDiv.innerHTML += '<p> Level of Raid : ' + str + '</p>';
   cardDiv.innerHTML += '<p> Start Time of Raid : ' + requiredData[n].startTime+'</p>';
   cardDiv.innerHTML += '<p> End Time of Raid : ' + requiredData[n].endTime+'</p>';
   cardDiv.innerHTML += '<p> Required Player Level : ' + requiredData[n].minLevel+'</p>';
-  cardDiv.innerHTML += '<p> Premium Pass : <img src="img/3_premium.png" style="width:60px"> / <img src="img/2_premium.png" style="width:50px">' + requiredData[n].nPass+'</p>';
-  cardDiv.innerHTML += '<p> Remote Pass : <img src="img/1_remote.png" style="width:60px"> ' + requiredData[n].rPass + '</p>';
+  cardDiv.innerHTML += '<p> Premium Pass : <img src="/resources/img/3_premium.png" style="width:60px"> / <img src="/resources/img/2_premium.png" style="width:50px">' + requiredData[n].npass+'</p>';
+  cardDiv.innerHTML += '<p> Remote Pass : <img src="/resources/img/1_remote.png" style="width:60px"> ' + requiredData[n].rpass + '</p>';
 
 
   if(requiredData[n].p_end =="0"){
@@ -240,61 +118,99 @@ function allPostHtml(requiredData, n){
 
 
 //allPost() : 모든 포스트/필터된 포스트를 출력하기 전 거치는 ajax
-function allPostAjax(selectOption) {
+function allPostAjax(selectOption, switchOption) {
   if(selectOption == 'three'){
-    removeAllPost();
-    
-    var url = '/index/three';
-
-    sendAjax(url, 'GET', null, function (res) {
-      console.log(res.response);
-      var result = JSON.parse(res.response);
-      for (let i = 0; i < result.length; i++) {
-        allPostHtml(result, i);
-      }
-    });
+	if(switchOption == true){
+		removeAllPost();
+		var url = '/index/three/0';
+		
+		sendAjax(url, 'GET', null, function (res) {
+	      console.log(res.response);
+	      var result = JSON.parse(res.response);
+	      for (let i = 0; i < result.length; i++) {
+	        allPostHtml(result, i);
+	      }
+   		});
+	} else {		
+		removeAllPost();
+	    var url = '/index/three';
+	    sendAjax(url, 'GET', null, function (res) {
+	      console.log(res.response);
+	      var result = JSON.parse(res.response);
+	      for (let i = 0; i < result.length; i++) {
+	        allPostHtml(result, i);
+	      }
+	    });
+	}
   }else if(selectOption == 'five'){
-    removeAllPost();
+	if(switchOption == true){
+		removeAllPost();
+		var url = '/index/five/0';
+		
+		sendAjax(url, 'GET', null, function (res) {
+	      console.log(res.response);
+	      var result = JSON.parse(res.response);
+	      for (let i = 0; i < result.length; i++) {
+	        allPostHtml(result, i);
+	      }
+   		});
+	} else {
+		removeAllPost();
+	    var url = '/index/five';
+	    sendAjax(url, 'GET', null, function (res) {
+	      console.log(res.response);
+	      var result = JSON.parse(res.response);
+	      for (let i = 0; i < result.length; i++) {
+	        allPostHtml(result, i);
+	      }
+	    });
+	}
     
-    var url = '/index/five';
-
-    sendAjax(url, 'GET', null, function (res) {
-      console.log(res.response);
-      var result = JSON.parse(res.response);
-      for (let i = 0; i < result.length; i++) {
-        allPostHtml(result, i);
-      }
-    });
   }else if(selectOption == 'mega'){
-    removeAllPost();
-    
-    var url = '/index/mega';
-
-    sendAjax(url, 'GET', null, function (res) {
-      console.log(res.response);
-      var result = JSON.parse(res.response);
-      for (let i = 0; i < result.length; i++) {
-        allPostHtml(result, i);
-      }
-    });
+	if(switchOption == true){
+		removeAllPost();
+		var url = '/index/mega/0';
+		sendAjax(url, 'GET', null, function (res) {
+	      console.log(res.response);
+	      var result = JSON.parse(res.response);
+	      for (let i = 0; i < result.length; i++) {
+	        allPostHtml(result, i);
+	      }
+    	});
+	} else {
+		removeAllPost();
+	    var url = '/index/mega';		
+	    sendAjax(url, 'GET', null, function (res) {
+	      console.log(res.response);
+	      var result = JSON.parse(res.response);
+	      for (let i = 0; i < result.length; i++) {
+	        allPostHtml(result, i);
+	      }
+	    });
+	}
   }else{
-    removeAllPost();
-    var url = '/index';
-  
-    sendAjax(url, 'GET', null, function (res) {
-      console.log(res.response);
-      var result = JSON.parse(res.response);
-      for (let i = 0; i < result.length; i++) {
-        allPostHtml(result, i);
-      }
-    });
+	if(switchOption == true){
+		removeAllPost();
+		var url = '/index/0';
+		sendAjax(url, 'GET', null, function (res) {
+	      console.log(res.response);
+	      var result = JSON.parse(res.response);
+	      for (let i = 0; i < result.length; i++) {
+	        allPostHtml(result, i);
+	      }
+    	});
+	} else {	
+		removeAllPost();
+	    var url = '/index';
+	    sendAjax(url, 'GET', null, function (res) {
+	      console.log(res.response);
+	      var result = JSON.parse(res.response);
+	      for (let i = 0; i < result.length; i++) {
+	        allPostHtml(result, i);
+	      }
+	    });
+	}
   }
-
-  //if(selectOption == 'total'){
-  //  for(let i = 0; i < postData.length; i++){
-  //    allPostHtml(postData, i);
-  //  }
-  //}
 };
 
 
@@ -355,12 +271,15 @@ function createPost(){
                       <option value="5">5</option>
                       <option value="mega">mega</option>
                       </select></p>`;
-  modalBodyStr += "<p>Start Time of Raid : <input type='time' id='startTime' class='form-control' name='startTime'></p>";
-  modalBodyStr += "<p>End Time of Raid : <input type='time' id='endTime' class='form-control' name='endTime'></p>";
-  modalBodyStr += "<p>Minimum Level of Raid : <input type='number' id='minLevel' class='form-control' name='minLevel' value='minLevel'></p>";
-  modalBodyStr += "<p>Premium Pass : <input type='number' id='nPass' class='form-control' name='nPass' value='nPass'></p>";
-  modalBodyStr += "<p>Remote Pass : <input type='number' id='rPass' class='form-control' name='rPass' value='rPass'></p>";
+  modalBodyStr += "<p>Start Time of Raid : <input type='datetime-local' id='startTime' class='form-control' name='startTime'></p>";
+  modalBodyStr += "<p>End Time of Raid : <input type='datetime-local' id='endTime' class='form-control' name='endTime'></p>";
+  modalBodyStr += "<p>Minimum Level of Raid : <input type='number' max='40' id='minLevel' class='form-control' name='minLevel'></p>";
+  modalBodyStr += "<p>Premium Pass : <input type='number' id='nPass' class='form-control' name='nPass'></p>";
+  modalBodyStr += "<p>Remote Pass : <input type='number' id='rPass' class='form-control' name='rPass'></p>";
   modalBody.innerHTML = modalBodyStr;
+
+  document.getElementById("startTime").value = new Date().toISOString().slice(0, 16);
+  document.getElementById("endTime").value = new Date().toISOString().slice(0, 16);
 
   let modalFooter = document.createElement("div");
   modalFooter.setAttribute("class", "modal-footer");
@@ -389,12 +308,11 @@ function createPost(){
 //addPost() : 기존 게시글에 새 게시글의 데이터를 더하는 함수
 /* 포스트를 생성하게 되면 바로 mypost 화면으로 리다이렉트 된다. */
 function addPost(){
-  alert("포스트가 성공적으로 등록되었습니다.");
   const addData = {
     pokemon : document.getElementById("pokemon").value,
     raidLevel : document.getElementById("raidLevel").value,
-    startTime : document.getElementById("startTime").value,
-    endTime : document.getElementById("endTime").value,
+    startTime : document.getElementById("startTime").value.slice(11),
+    endTime : document.getElementById("endTime").value.slice(11),
     minLevel : document.getElementById("minLevel").value,
     nPass : document.getElementById("nPass").value,
     rPass : document.getElementById("rPass").value,
@@ -403,7 +321,18 @@ function addPost(){
   const strObject = JSON.stringify(addData);
 
   var url = '/index';
-  sendAjax(url, 'POST', strObject);
+  
+	sendAjax(url, 'POST', strObject, function (res) {
+    console.log(res.response);
+    if(res.response == 1) {
+      alert("Post Success!");
+    }else {
+      alert("You have already registered post or comment.");
+      window.location.replace("/post");
+    }
+  });
+
+  setTimeout("location.reload()", 1000);
 
   // 밑 부분은 앞으로 서버랑 연결할 때 필요 없는 부분
   // postData.push(addData);
@@ -431,7 +360,7 @@ function allComment(resultData, num) {
 
       let commentText = '';
       commentText += '<div> <p class="commentP">' + resultData[i].nickname1;
-      commentText += '</p> <div style="float: right; width:60%;"><img src="img/1_remote.png" style="width:60px; margin-right:20px">' + resultData[i].checkNum.length + "</div></div>";
+      commentText += '</p> <div style="float: right; width:60%;"><img src="/resources/img/1_remote.png" style="width:60px; margin-right:20px">' + resultData[i].checkNum.length + "</div></div>";
       commentW.innerHTML = commentText;
 
       startDiv.appendChild(commentW);
@@ -440,15 +369,36 @@ function allComment(resultData, num) {
 
   let commentForm = document.createElement("div");
   commentForm.setAttribute('class', 'comment-wrap wrap'+ num);
+  startDiv.appendChild(commentForm);
 
-  var str = "";
-  str+="<span class='checked'><input type='checkbox' name='nickname"+num+"' value='1'> 1. nick1</span>";
-  str+="<span class='checked'><input type='checkbox' name='nickname"+num+"' value='2'> 2. nick2</span>";
-  str+="<span class='checked'><input type='checkbox' name='nickname"+num+"' value='3'> 3. nick3</span>";
-  str+="<span class='checked'><input type='checkbox' name='nickname"+num+"' value='4'> 4. nick4</span>";
-  str+="<span class='checked'><input type='checkbox' name='nickname"+num+"' value='5'> 5. nick5 </span></br>";
+  console.log("user "+ resultData.user[0].nickname1);
   
+  let nickname1 = resultData.user[0].nickname1;
+  let nickname2 = resultData.user[0].nickname2;
+  let nickname3 = resultData.user[0].nickname3;
+  let nickname4 = resultData.user[0].nickname4;
+  let nickname5 = resultData.user[0].nickname5;
+  if(nickname2 == ''){
+	nickname2 = 'empty';
+  } 
+  if(nickname3 == ''){
+	nickname3 = 'empty';
+  }
+  if(nickname4 == ''){
+	nickname4 = 'empty';
+  }
+  if(nickname5 == ''){
+	nickname5 = 'empty';
+  }  
+
+  let str = "";
+  str+="<p class='checked'><input type='checkbox' name='nickname"+num+"' value='1'> 1. "+nickname1+"</p>";
+  str+="<p class='checked'><input type='checkbox' name='nickname"+num+"' value='2'> 2. "+nickname2+"</p>";
+  str+="<p class='checked'><input type='checkbox' name='nickname"+num+"' value='3'> 3. "+nickname3+"</p>";
+  str+="<p class='checked'><input type='checkbox' name='nickname"+num+"' value='4'> 4. "+nickname4+"</p>";
+  str+="<p class='checked'><input type='checkbox' name='nickname"+num+"' value='5'> 5. "+nickname5+"</p></br>";
   commentForm.innerHTML = str;
+  
 
   commentSubmit = document.createElement('input');
   commentSubmit.setAttribute('class', 'comment-submit');
@@ -458,7 +408,6 @@ function allComment(resultData, num) {
 
   commentForm.appendChild(commentSubmit);
 
-  startDiv.appendChild(commentForm);
   
   currentDiv.appendChild(startDiv);
 
@@ -520,7 +469,6 @@ function commitComment(num) {
   }
 
   const commitData = {
-    userId : '1283902841946955',
     p_id : num,
     checkNum : sum
   }
@@ -528,9 +476,16 @@ function commitComment(num) {
   const strObject = JSON.stringify(commitData);
 
   var url = '/comment';
-  sendAjax(url, 'POST', strObject);
-
-  alert("댓글이 성공적으로 등록되었습니다.");
+  sendAjax(url, 'POST', strObject, function (res) {
+    console.log(res.response);
+    if(res.response == 1) {
+      alert("Comment Success!");
+      window.location.replace("/post");
+    }else {
+      alert("You have already registered post or comment.");
+      window.location.replace("/post");
+    }
+  });
 }
 
 
@@ -569,21 +524,99 @@ function makeFilteringButton(){
   document.getElementById("filterSelect").appendChild(selectThree);
 }
 
+function makeFilterSwich(){
+  let switchBox = document.getElementById("switchDiv");
+
+  let switchInput = document.createElement("input");
+  switchInput.setAttribute("type", "checkbox");
+  switchInput.setAttribute("class", "custom-control-input");
+  switchInput.setAttribute("id", "customSwitch1");
+  switchInput.setAttribute("onchange", "filterOptionCheck()");
+  switchBox.appendChild(switchInput);
+
+  let switchLabel = document.createElement("label");
+  switchLabel.setAttribute("class", "custom-control-label");
+  switchLabel.setAttribute("for", "customSwitch1");
+  switchBox.appendChild(switchLabel);
+}
 
 //filterOptionCheck() : 필터링할 value 대로 ajax를 걸어주는 함수
 function filterOptionCheck(){
   var selectOption = document.getElementById("filterSelect").value;
+  var switchOption = document.getElementById("customSwitch1").checked;
   if(selectOption === 'total'){
-    return allPostAjax(selectOption);
+    if(switchOption == true){
+      return allPostAjax(selectOption, switchOption);
+    } else {
+    	return allPostAjax(selectOption, switchOption);
+	}
   }else if(selectOption === 'three'){
-    return allPostAjax(selectOption);
+    if(switchOption == true){
+      return allPostAjax(selectOption, switchOption);
+    } else {
+    	return allPostAjax(selectOption, switchOption);
+	}
   }else if(selectOption === 'five'){
-    return allPostAjax(selectOption);
+    if(switchOption == true){
+      return allPostAjax(selectOption, switchOption);
+    } else {
+    	return allPostAjax(selectOption, switchOption);
+	}
   }else{
-    return allPostAjax(selectOption);
+    if(switchOption == true){
+      return allPostAjax(selectOption, switchOption);
+    } else {
+    	return allPostAjax(selectOption, switchOption);
+	}
   }
 }
 
+
+
+// Init paint sidebar
+function myPageAjax() {
+  const url = "/mypage";
+
+  sendAjax(url, "GET", null, function (res) {
+    let result = JSON.parse(res.response);
+	console.log(result);
+	loadSidebar(result);	
+  });
+}
+
+const sidebarList = document.querySelectorAll(".sidebar-list");
+function loadSidebar(data){
+	const userInfoGet = data;
+	sidebarList[0].innerText = userInfoGet.nickname1;
+	if(userInfoGet.nickname2 == "") {
+		sidebarList[1].innerText = "Empty";
+	} else {
+  	sidebarList[1].innerText = userInfoGet.nickname2;		
+	}
+	if(userInfoGet.nickname3 == "") {
+		sidebarList[2].innerText = "Empty";
+	} else {
+  	sidebarList[2].innerText = userInfoGet.nickname3;		
+	}
+	if(userInfoGet.nickname4 == "") {
+		sidebarList[3].innerText = "Empty";
+	} else {
+  	sidebarList[3].innerText = userInfoGet.nickname4;		
+	}
+	if(userInfoGet.nickname5 == "") {
+		sidebarList[4].innerText = "Empty";
+	} else {
+  	sidebarList[4].innerText = userInfoGet.nickname5;		
+	}
+}
+
+//윈도우가 로드될 때 myPageAjax()를 실행시키기 위한 함수
+if (window.addEventListener)
+	  window.addEventListener("load", myPageAjax, false);
+else if (window.attachEvent)
+    window.attachEvent("onload", myPageAjax);
+else window.onload = myPageAjax;
+// End of paint sidebar
 
 //윈도우가 로드될 때 makeFilteringButton()를 실행시키기 위한 함수
 if (window.addEventListener)
@@ -591,5 +624,12 @@ if (window.addEventListener)
 else if (window.attachEvent)
       window.attachEvent("onload", makeFilteringButton);
 else window.onload = makeFilteringButton;
+
+//윈도우가 로드될 때 makeFilteringButton()를 실행시키기 위한 함수
+if (window.addEventListener)
+        window.addEventListener("load", makeFilterSwich, false);
+else if (window.attachEvent)
+      window.attachEvent("onload", makeFilterSwich);
+else window.onload = makeFilterSwich;
 
 

@@ -1,8 +1,7 @@
 package com.exam.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.exam.beans.CommentBean;
 import com.exam.beans.PostBean;
+import com.exam.beans.UserBean;
 import com.exam.mapper.CommentMapper;
 import com.exam.mapper.PostMapper;
+import com.exam.mapper.UserMapper;
 
 @CrossOrigin
 @Controller
@@ -31,16 +32,37 @@ public class CommentController {
 	PostMapper postmapper;
 	@Autowired
 	CommentMapper commentmapper;
+	@Autowired
+	UserMapper usermapper;
 	
 	@ResponseBody
 	@GetMapping("/{p_id}") //댓글 출력
-	public List<CommentBean> lookcomment(@PathVariable String p_id){
+	public Result2Dto lookcomment(@PathVariable String p_id, HttpServletRequest request){
 		logger.info("/comment get 접속");
 		logger.info("p_id : "+ p_id);
+		HttpSession ss = request.getSession();
+		String userId = (String)ss.getAttribute("userId");
 		CommentBean commentBean = new CommentBean();
 		commentBean.setP_id(p_id);
-
-		return commentmapper.getComment(commentBean);
+		
+		UserBean userBean = new UserBean();
+		userBean.setUserId(userId);
+		
+		return new Result2Dto(commentmapper.getComment(commentBean), usermapper.getUser(userBean));
+	}
+	
+	@ResponseBody
+	@GetMapping("/mypost/{p_id}") //댓글 출력
+	public ResultDto lookmycomment(@PathVariable String p_id, HttpServletRequest request){
+		logger.info("/comment get 접속");
+		logger.info("p_id : "+ p_id);
+		HttpSession ss = request.getSession();
+		String userId = (String)ss.getAttribute("userId");
+		CommentBean commentBean = new CommentBean();
+		commentBean.setP_id(p_id);
+		
+		
+		return new ResultDto(commentmapper.getComment(commentBean), userId);
 	}
 	
 	@ResponseBody
@@ -48,12 +70,13 @@ public class CommentController {
 	public String setcomment(@RequestBody CommentBean commentBean, HttpServletRequest request) {
 		logger.info("/comment post 접속");
 
-//		HttpSession ss = request.getSession();
-//		String userId = (String) ss.getAttribute("userId");
+		HttpSession ss = request.getSession();
+		String userId = (String) ss.getAttribute("userId");
 		logger.info(commentBean);
-//		commentBean.setUserId(userId);
+		commentBean.setUserId(userId);
 
 		PostBean postBean = new PostBean();
+		postBean.setUserId(userId);
 		String p_end="";
 		for(PostBean postBean2: postmapper.checkEnd(postBean)) {
 			p_end=postBean2.getP_end();
@@ -68,7 +91,6 @@ public class CommentController {
 		}
 		logger.info("글 쓴거 없음");
 
-		commentBean.setUserId(postBean.getUserId());
 		String c_end="";
 		for(CommentBean commentBean2: commentmapper.checkEnd(commentBean)) {
 			c_end=commentBean2.getC_end();
@@ -76,7 +98,7 @@ public class CommentController {
 		if (c_end==null) {
 			c_end="3";
 		}
-		System.out.println("c_end : " + c_end);
+		logger.info("c_end : " + c_end);
 		if (c_end.contentEquals("0") || c_end.contentEquals("1")) {
 			logger.info("댓글 쓴거 있음");
 			return "-1";

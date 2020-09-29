@@ -18,15 +18,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.exam.beans.CommentBean;
 import com.exam.beans.CommentBean2;
 import com.exam.beans.PostBean;
+import com.exam.chat.ChatRoom;
+import com.exam.chat.ChatRoomRepository;
 import com.exam.mapper.CommentMapper;
 import com.exam.mapper.PostMapper;
 
+import lombok.RequiredArgsConstructor;
+
 @CrossOrigin
 @Controller
+@RequiredArgsConstructor
 @RequestMapping(value="/mypost", produces="application/json; charset=utf8")
 public class MypostController {
 	
 	private Logger logger = Logger.getLogger(this.getClass());
+	
+	private final ChatRoomRepository chatRoomRepository;
 	
 	@Autowired
 	PostMapper postmapper;
@@ -58,6 +65,7 @@ public class MypostController {
 			for(PostBean postBean2: postmapper.getMyPost2(postBean)) {
 				postBean = postBean2;
 			}
+			postBean.setSuserId(userId);
 			return postBean;
 		}
 		else {
@@ -68,7 +76,7 @@ public class MypostController {
 			}
 			String p_end = postBean.getP_end();
 			logger.info("p_end : " + p_end);
-			
+			postBean.setSuserId(userId);
 			return postBean;
 		}
 	}
@@ -101,6 +109,11 @@ public class MypostController {
 		CommentBean2 commentBean2 = new CommentBean2();
 		commentBean2.setP_id(postBean.getP_id());
 		commentmapper.changeComment2(commentBean2);
+		
+		ChatRoom room = new ChatRoom();
+		room.setRoomId(postBean.getChat());
+		chatRoomRepository.deleteChatRoom(room);
+		
 		return"1";
 	}
 	

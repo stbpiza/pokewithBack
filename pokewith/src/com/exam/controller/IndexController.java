@@ -63,7 +63,7 @@ public class IndexController {
 		}
 		logger.info("글 쓴거 없음");
 		CommentBean commentBean = new CommentBean();
-		commentBean.setUserId(postBean.getUserId());
+		commentBean.setUserId(userId);
 		String c_end="";
 		for(CommentBean commentBean2: commentmapper.checkEnd(commentBean)) {
 			c_end=commentBean2.getC_end();
