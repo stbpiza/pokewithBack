@@ -43,45 +43,46 @@ public class IndexController {
 	@ResponseBody
 	@PostMapping //메인페이지 게시물 입력
 	public String setpost(@RequestBody PostBean postBean, HttpServletRequest request){
-		try {
 		logger.info("/index post 접속");
-		HttpSession ss = request.getSession();
-		String userId = (String) ss.getAttribute("userId");
-		logger.info(postBean);
-		postBean.setUserId(userId);
-		
-		String p_end="";
-		for(PostBean postBean2: postmapper.checkEnd(postBean)) {
-			p_end=postBean2.getP_end();
-		}
-		if (p_end==null) {
-			p_end="3";
-		}
-		logger.info("p_end : "+ p_end);
-		if (p_end.contentEquals("0") || p_end.contentEquals("1")) {
-			logger.info("이미 글 쓴거 있음");
-			return "-1";
-		}
-		logger.info("글 쓴거 없음");
-		CommentBean commentBean = new CommentBean();
-		commentBean.setUserId(userId);
-		String c_end="";
-		for(CommentBean commentBean2: commentmapper.checkEnd(commentBean)) {
-			c_end=commentBean2.getC_end();
-		}
-		if (c_end==null) {
-			c_end="3";
-		}
-		logger.info("c_end : "+ c_end);
-		if (c_end.contentEquals("0") || c_end.contentEquals("1")) {
-			logger.info("댓글 쓴거 있음");
-			return "-1";
-		}
-		logger.info("댓글 쓴거 없음, 정상 글 등록");
-		postmapper.posting(postBean);
-		return "1";
+		try {
+			HttpSession ss = request.getSession();
+			String userId = (String) ss.getAttribute("userId");
+			logger.info(postBean);
+			postBean.setUserId(userId);
+			
+			String p_end="";
+			for(PostBean postBean2: postmapper.checkEnd(postBean)) {
+				p_end=postBean2.getP_end();
+			}
+			if (p_end==null) {
+				p_end="3";
+			}
+			logger.info("p_end : "+ p_end);
+			if (p_end.contentEquals("0") || p_end.contentEquals("1")) {
+				logger.info("이미 글 쓴거 있음");
+				return "-1";
+			}
+			logger.info("글 쓴거 없음");
+			CommentBean commentBean = new CommentBean();
+			commentBean.setUserId(userId);
+			String c_end="";
+			for(CommentBean commentBean2: commentmapper.checkEnd(commentBean)) {
+				c_end=commentBean2.getC_end();
+			}
+			if (c_end==null) {
+				c_end="3";
+			}
+			logger.info("c_end : "+ c_end);
+			if (c_end.contentEquals("0") || c_end.contentEquals("1")) {
+				logger.info("댓글 쓴거 있음");
+				return "-1";
+			}
+			logger.info("댓글 쓴거 없음, 정상 글 등록");
+			postmapper.posting(postBean);
+			return "1";
 		}
 		catch(Exception e){
+			logger.info(e);
 			return "-2";
 		}
 	}

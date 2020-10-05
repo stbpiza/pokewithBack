@@ -46,12 +46,18 @@ public class MypageController {
 	@PostMapping //유저정보수정
 	public String setUser(@RequestBody UserBean userBean, HttpServletRequest request) {
 		logger.info("/mypage post 접속"+ userBean);
-		HttpSession ss = request.getSession();
-		String userId = (String)ss.getAttribute("userId");
-		userBean.setUserId(userId);
-		logger.info("userid : "+ userBean.getUserId());
-		usermapper.reUser(userBean);
-		ss.setAttribute("nickname1", userBean.getNickname1());
-		return "1";
+		try {
+			HttpSession ss = request.getSession();
+			String userId = (String)ss.getAttribute("userId");
+			userBean.setUserId(userId);
+			logger.info("userid : "+ userBean.getUserId());
+			usermapper.reUser(userBean);
+			ss.setAttribute("nickname1", userBean.getNickname1());
+			return "1";
+		}
+		catch(Exception e){
+			logger.info(e);
+			return "-2";
+		}
 	}
 }

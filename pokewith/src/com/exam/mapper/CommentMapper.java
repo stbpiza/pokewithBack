@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.exam.beans.CommentBean;
 import com.exam.beans.CommentBean2;
+import com.exam.beans.CommentChat;
 
 public interface CommentMapper {
 	//댓글작성
@@ -41,4 +42,12 @@ public interface CommentMapper {
 	//게시글 작성한게 있는지
 	@Select("SELECT * FROM comment WHERE userId=#{userId} ORDER BY c_id DESC LIMIT 1")
 	public List<CommentBean> checkEnd(CommentBean commentBean);
+	
+	//채팅방 입장권한 확인
+	@Select("select post.chat FROM comment LEFT JOIN post ON comment.p_id = post.p_id "
+			+ "WHERE comment.userId=#{userId} and comment.c_end=1 ORDER BY comment.c_id DESC LIMIT 1")
+	public List<CommentChat> checkChat(CommentChat commentChat);
+	
+	
+	
 }

@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.exam.beans.CommentBean;
 import com.exam.beans.CommentBean2;
 import com.exam.beans.PostBean;
+import com.exam.beans.UserBean;
 import com.exam.chat.ChatRoom;
 import com.exam.chat.ChatRoomRepository;
 import com.exam.mapper.CommentMapper;
 import com.exam.mapper.PostMapper;
+import com.exam.mapper.UserMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,6 +41,8 @@ public class MypostController {
 	PostMapper postmapper;
 	@Autowired
 	CommentMapper commentmapper;
+	@Autowired
+	UserMapper usermapper;
 	
 	@ResponseBody
 	@GetMapping()
@@ -86,16 +90,21 @@ public class MypostController {
 	public String startRaid(@RequestBody CommentBean2 commentBean2) { //댓글채택
 		logger.info("/mypost put 접속 (채택)");
 		logger.info(commentBean2);
-		
-		commentmapper.changeComment2(commentBean2); //전부 2로
-		commentmapper.changeComment1(commentBean2); //채택된 댓글만 1로
-		
-		PostBean postBean = new PostBean();
-		postBean.setP_id(commentBean2.getP_id());
-		postBean.setChat(commentBean2.getChat());
-		postmapper.pEnd1(postBean); //글 p_end 1로하고 채팅방 이름 추가
-		
-		return "1";
+		try {
+			commentmapper.changeComment2(commentBean2); //전부 2로
+			commentmapper.changeComment1(commentBean2); //채택된 댓글만 1로
+			
+			PostBean postBean = new PostBean();
+			postBean.setP_id(commentBean2.getP_id());
+			postBean.setChat(commentBean2.getChat());
+			postmapper.pEnd1(postBean); //글 p_end 1로하고 채팅방 이름 추가
+			
+			return "1";
+		}
+		catch(Exception e){
+			logger.info(e);
+			return "-2";
+		}
 	}
 	
 	@ResponseBody
@@ -103,31 +112,59 @@ public class MypostController {
 	public String endRaid(@RequestBody PostBean postBean) { //레이드 종료
 		logger.info("/mypost/end post 접속 (종료)");
 		logger.info(postBean);
-		
-		postmapper.pEnd2(postBean);
-
-		CommentBean2 commentBean2 = new CommentBean2();
-		commentBean2.setP_id(postBean.getP_id());
-		commentmapper.changeComment2(commentBean2);
-		
-		ChatRoom room = new ChatRoom();
-		room.setRoomId(postBean.getChat());
-		chatRoomRepository.deleteChatRoom(room);
-		
-		return"1";
+		try {
+			postmapper.pEnd2(postBean);
+	
+			CommentBean2 commentBean2 = new CommentBean2();
+			commentBean2.setP_id(postBean.getP_id());
+			commentmapper.changeComment2(commentBean2);
+			
+			ChatRoom room = new ChatRoom();
+			room.setRoomId(postBean.getChat());
+			chatRoomRepository.deleteChatRoom(room);
+			
+			return"1";
+		}
+		catch(Exception e){
+			logger.info(e);
+			return "-2";
+		}
 	}
 	
 	@ResponseBody
 	@DeleteMapping("/mycomment")
-	public String delComment(@RequestBody CommentBean commentBean, HttpServletRequest request) { //레이드 종료
+	public String delComment(@RequestBody CommentBean commentBean) { //댓글 삭제
 		logger.info("/mypost/mycomment delete 접속");
 		logger.info(commentBean);
-		
-		
-//		HttpSession ss = request.getSession();
-//		String userId = (String)ss.getAttribute("userId");
-		
-		commentmapper.commentDel(commentBean);
-		return"1";
+		try {
+			commentmapper.commentDel(commentBean);
+			return"1";
+		}
+		catch(Exception e){
+			logger.info(e);
+			return "-2";
+		}
+	}
+	
+	@ResponseBody
+	@PostMapping("/all")
+	public String clean(HttpServletRequest request) { //모든 글 댓글 end 2로
+		logger.info("/mypost/all post 접속");
+		try {
+			HttpSession ss = request.getSession();
+			String userId = (String)ss.getAttribute("userId");
+			
+			UserBean userBean = new UserBean();
+			userBean.setUserId(userId);
+			
+			usermapper.cleanUser(userBean);
+			
+			
+			return "1";
+		}
+		catch(Exception e){
+			logger.info(e);
+			return "-2";
+		}
 	}
 }

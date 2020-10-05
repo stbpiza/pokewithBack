@@ -18,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.exam.interceptor.AdminInterceptor;
 import com.exam.interceptor.MainInterceptor;
+import com.exam.interceptor.RegisterInterceptor;
 import com.exam.mapper.CommentMapper;
 import com.exam.mapper.PostMapper;
 import com.exam.mapper.UserMapper;
@@ -118,6 +119,7 @@ public class ServletConfiguration implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new MainInterceptor()).addPathPatterns("/post/**","/page/**", "/rooms/**");
 		registry.addInterceptor(new AdminInterceptor()).addPathPatterns("/testroom/**");
+		registry.addInterceptor(new RegisterInterceptor()).addPathPatterns("/check/**");
 	}
 	
 	

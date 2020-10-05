@@ -95,7 +95,7 @@ public class FacebookController {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "forward:/check";
+		return "redirect:/check";
 	} 
 	
 	@RequestMapping(value="/check", method= {RequestMethod.GET, RequestMethod.POST}) //회원유무체크
@@ -126,23 +126,29 @@ public class FacebookController {
 	@ResponseBody
 	@RequestMapping(value="/signup", method= RequestMethod.POST, produces="application/json; charset=utf8") //회원가입
 	public String newsign(@RequestBody UserBean userBean, HttpServletResponse response, HttpServletRequest request) {
-		HttpSession ss = request.getSession();
-		String userId = (String) ss.getAttribute("tuserId");
-
-		logger.info("userId : " + userId);
-		logger.info(userBean);
-		userBean.setUserId(userId);
-		usermapper.signIn(userBean);
-		
-		for(UserBean userBean2: usermapper.getUser(userBean)) {
-			userBean = userBean2;
+		try {
+			HttpSession ss = request.getSession();
+			String userId = (String) ss.getAttribute("tuserId");
+	
+			logger.info("userId : " + userId);
+			logger.info(userBean);
+			userBean.setUserId(userId);
+			usermapper.signIn(userBean);
+			
+			for(UserBean userBean2: usermapper.getUser(userBean)) {
+				userBean = userBean2;
+			}
+			ss.removeAttribute("tuserId");
+			ss.setAttribute("userId", userBean.getUserId());
+			ss.setAttribute("nickname1", userBean.getNickname1());
+			//ss.setAttribute("u_like", userBean.getU_like());
+			//ss.setAttribute("u_hate", userBean.getU_hate());
+			return "1";
 		}
-		ss.removeAttribute("tuserId");
-		ss.setAttribute("userId", userBean.getUserId());
-		ss.setAttribute("nickname1", userBean.getNickname1());
-		//ss.setAttribute("u_like", userBean.getU_like());
-		//ss.setAttribute("u_hate", userBean.getU_hate());
-		return "1";
+		catch(Exception e){
+			logger.info(e);
+			return "-2";
+		}
 	}
 	
 	@RequestMapping(value="/logout", method=RequestMethod.GET) 

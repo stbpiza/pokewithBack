@@ -6,21 +6,16 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 
-public class AdminInterceptor implements HandlerInterceptor {
+public class RegisterInterceptor implements HandlerInterceptor {
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		HttpSession ss = request.getSession();
-		String userId = (String)ss.getAttribute("userId");
-		if (userId==null) {
-			userId="";
+		String userId = (String)ss.getAttribute("tuserId");
+		if(userId==null) {
+			response.sendRedirect("/");
+			return false;
 		}
-		if(userId.contentEquals("3268944226555507")) {
-			return true;	
-		}
-		if(userId.contentEquals("1649416911892763")) {
-			return true;	
-		}
-		response.sendRedirect("/");
-		return false;
+		return true;	
 	}
 }
