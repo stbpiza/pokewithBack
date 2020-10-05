@@ -43,6 +43,7 @@ public class IndexController {
 	@ResponseBody
 	@PostMapping //메인페이지 게시물 입력
 	public String setpost(@RequestBody PostBean postBean, HttpServletRequest request){
+		try {
 		logger.info("/index post 접속");
 		HttpSession ss = request.getSession();
 		String userId = (String) ss.getAttribute("userId");
@@ -79,6 +80,10 @@ public class IndexController {
 		logger.info("댓글 쓴거 없음, 정상 글 등록");
 		postmapper.posting(postBean);
 		return "1";
+		}
+		catch(Exception e){
+			return "-2";
+		}
 	}
 	
 	@ResponseBody

@@ -79,8 +79,8 @@ function allPostHtml(requiredData, n){
   cardDiv.innerHTML += '<p> Start Time of Raid : ' + requiredData[n].startTime+'</p>';
   cardDiv.innerHTML += '<p> End Time of Raid : ' + requiredData[n].endTime+'</p>';
   cardDiv.innerHTML += '<p> Required Player Level : ' + requiredData[n].minLevel+'</p>';
-  cardDiv.innerHTML += '<p> Premium Pass : <img src="/resources/img/3_premium.png" style="width:60px"> / <img src="/resources/img/2_premium.png" style="width:50px">' + requiredData[n].npass+'</p>';
-  cardDiv.innerHTML += '<p> Remote Pass : <img src="/resources/img/1_remote.png" style="width:60px"> ' + requiredData[n].rpass + '</p>';
+  cardDiv.innerHTML += '<p> Premium Pass : <img src="/resources/img/3_premium.png" style="width:60px"> / <img src="/resources/img/2_premium.png" style="width:50px">' + requiredData[n].nPass+'</p>';
+  cardDiv.innerHTML += '<p> Remote Pass : <img src="/resources/img/1_remote.png" style="width:60px"> ' + requiredData[n].rPass + '</p>';
 
 
   if(requiredData[n].p_end =="0"){
@@ -264,7 +264,7 @@ function createPost(){
   modalContent.appendChild(modalBody);
 
   let modalBodyStr = '';
-  modalBodyStr += "<p>pokemon : <input type='text' id='pokemon' class='form-control' name='pokemon' placeholder='pokemon of number'></p>";
+  modalBodyStr += "<p>pokemon : <input type='text' id='pokemon' class='form-control' onkeyup='setTimeout(pokemon, 500)' name='pokemon' placeholder='pokemon of number'><div id='pokemonImg'> </div> </p>";
   modalBodyStr += `<p>Level of Raid : <select name="searchYear" id="raidLevel" class='form-control' name="raidLevel">
                       <option value="1">1</option>
                       <option value="3">3</option>
@@ -273,7 +273,7 @@ function createPost(){
                       </select></p>`;
   modalBodyStr += "<p>Start Time of Raid : <input type='datetime-local' id='startTime' class='form-control' name='startTime'></p>";
   modalBodyStr += "<p>End Time of Raid : <input type='datetime-local' id='endTime' class='form-control' name='endTime'></p>";
-  modalBodyStr += "<p>Minimum Level of Raid : <input type='number' max='40' id='minLevel' class='form-control' name='minLevel'></p>";
+  modalBodyStr += "<p>Required Player Level : <input type='number' max='40' id='minLevel' class='form-control' name='minLevel'></p>";
   modalBodyStr += "<p>Premium Pass : <input type='number' id='nPass' class='form-control' name='nPass'></p>";
   modalBodyStr += "<p>Remote Pass : <input type='number' id='rPass' class='form-control' name='rPass'></p>";
   modalBody.innerHTML = modalBodyStr;
@@ -304,6 +304,18 @@ function createPost(){
   modalFooter.appendChild(modalClose);
 }
 
+function pokemon(){
+	let pokeNum = document.getElementById("pokemon").value;
+	let pokeDiv = document.getElementById("pokemonImg");
+	pokeDiv.style.display = 'block';
+	if(pokeNum == ""){
+		pokeDiv.style.backgroundImage = "none";
+	}else {	
+		pokeDiv.style.backgroundImage = "url('/resources/img/pokemon/"+pokeNum+".png')";
+	}
+	
+}
+
 
 //addPost() : 기존 게시글에 새 게시글의 데이터를 더하는 함수
 /* 포스트를 생성하게 되면 바로 mypost 화면으로 리다이렉트 된다. */
@@ -318,12 +330,15 @@ function addPost(){
     rPass : document.getElementById("rPass").value,
   }
 
+
+
   const strObject = JSON.stringify(addData);
 
   var url = '/index';
   
 	sendAjax(url, 'POST', strObject, function (res) {
     console.log(res.response);
+	console.log("보내는 데이터 : "+strObject);
     if(res.response == 1) {
       alert("Post Success!");
     }else {

@@ -110,8 +110,8 @@ function showMyPost(resultData){
 		  cardDiv.innerHTML += '<p> Start Time of Raid : ' + resultData.startTime+'</p>';
 		  cardDiv.innerHTML += '<p> End Time of Raid : ' + resultData.endTime+'</p>';
 		  cardDiv.innerHTML += '<p> Required Player Level : ' + resultData.minLevel+'</p>';
-		  cardDiv.innerHTML += '<p> Premium Pass : <img src="/resources/img/3_premium.png" class="remote1"> / <img src="/resources/img/2_premium.png" class="remote2"> <span id="npass">' + resultData.npass+'</span></p>';
-		  cardDiv.innerHTML += '<p> Remote Pass : <img src="/resources/img/1_remote.png" class="remote1"> <span id="rpass">' + resultData.rpass + '</span></p>';
+		  cardDiv.innerHTML += '<p> Premium Pass : <img src="/resources/img/3_premium.png" class="remote1"> / <img src="/resources/img/2_premium.png" class="remote2"> <span id="npass">' + resultData.nPass+'</span></p>';
+		  cardDiv.innerHTML += '<p> Remote Pass : <img src="/resources/img/1_remote.png" class="remote1"> <span id="rpass">' + resultData.rPass + '</span></p>';
 		
 		  let commentDiv3 = document.createElement('div');
 		  commentDiv3.setAttribute('class', 'commentBox');
@@ -192,109 +192,123 @@ else window.onload = myPostAjax;
 //allComment(num) : myPost 게시글의 모든 댓글을 보는 함수
 function allComment(resultData) {
 	
-	let num = resultData.data[0].p_id;
-	let currentDiv = document.querySelector(".cardBody"+num);
+	if(resultData.data.length == 0){
+	  let myCard = document.querySelector(".myCard");
+	  
+	  let nullDiv = document.createElement("div");
+      nullDiv.setAttribute("class", "nullDiv");
+	  nullDiv.innerHTML = 'No comments yet.';
+      myCard.appendChild(nullDiv);
+ 
+      let arrowUp = document.querySelector(".hide-link");
+	  arrowUp.setAttribute('onclick', 'nullComment()');
+	  arrowUp.innerHTML = 'comment <i class="fa fa-sort-up"></i>';	  
+	} else {
+	  let num = resultData.data[0].p_id;
+	  let currentDiv = document.querySelector(".cardBody"+num);
 	
-	let checkNum = document.createElement('div');
-	checkNum.setAttribute('id', 'checkNum');
+	  let checkNum = document.createElement('div');
+	  checkNum.setAttribute('id', 'checkNum');	
+	  checkNum.innerHTML = 'Selectable number of accounts';
+	  currentDiv.appendChild(checkNum);
 	
-	checkNum.innerHTML = 'Selectable number of accounts';
+	  let nickDiv2 = document.createElement('div');
+	  nickDiv2.setAttribute('id', 'nickDiv2');
+	  currentDiv.appendChild(nickDiv2);	
 	
-	currentDiv.appendChild(checkNum);
+	  let startDiv = document.createElement("div");
+	  startDiv.setAttribute("class", "card-body commentBody"+num);
+	  currentDiv.appendChild(startDiv);
 	
-	let nickDiv2 = document.createElement('div');
-	nickDiv2.setAttribute('id', 'nickDiv2');
-	currentDiv.appendChild(nickDiv2);	
+	  arr = [];
+	  for(let i = 0; i<resultData.data.length; i++){
+	    if(num == resultData.data[i].p_id && resultData.data[i].c_end == '0'){
+	      let commentId = resultData.data[i].c_id;
+	      let commentW = document.createElement("div");
+	      commentW.setAttribute("class", "commentWrap comment"+commentId);
+ 		   startDiv.appendChild(commentW);
 	
-	let startDiv = document.createElement("div");
-	startDiv.setAttribute("class", "card-body commentBody"+num);
-	
-	if(resultData.data == []){
-	  let nullDiv = 'No comments yet.';
-	  startDiv.innerHTML = nullDiv;
-	}
-	
-	arr = [];
-	for(let i = 0; i<resultData.data.length; i++){
-	  if(num == resultData.data[i].p_id && resultData.data[i].c_end == '0'){
-	    let commentId = resultData.data[i].c_id;
-	    let commentW = document.createElement("div");
-	    commentW.setAttribute("class", "commentWrap comment"+commentId);
- 		 startDiv.appendChild(commentW);
-	
-	    let commentText = '';
-	    commentText += '<div> <p class="commentP"> <input type="checkbox" id="checkUser'+resultData.data[i].c_id+'" class="checkUser" onclick="checkUser(this, '+resultData.data[i].p_id+')" name="'+resultData.data[i].c_id+'" value="'+ resultData.data[i].checkNum +'">' + resultData.data[i].nickname1 + "</p></div>";
-	    commentW.innerHTML = commentText;
-		
-		let commentDiv = document.createElement("div");
-		commentDiv.setAttribute("class", "commentDiv");
-		commentW.appendChild(commentDiv);
-		
-		let flexDiv = document.createElement("div");
-		flexDiv.setAttribute("class", "d-flex align-items-center justify-content-between");
-		commentDiv.appendChild(flexDiv);
-		
-		let remoteResult = document.createElement("div");
-		remoteResult.setAttribute("id", "remoteResult");
-		flexDiv.appendChild(remoteResult);
-		
-		let remoteImg = document.createElement("img");
-		remoteImg.setAttribute("class", "remote1");
-		remoteImg.setAttribute("src", "/resources/img/1_remote.png");
-		remoteResult.appendChild(remoteImg);
-		
-		let spanDiv = document.createElement("span");
-		spanDiv.setAttribute("class", "commentLength");
-		spanDiv.setAttribute("id", "commentLength"+commentId);
-		spanDiv.innerHTML = resultData.data[i].checkNum.length;
-		remoteResult.appendChild(spanDiv);
+	      let commentTextDiv = document.createElement("div");
+          commentW.appendChild(commentTextDiv);
+           
+          let commentP = document.createElement("p");
+          commentP.setAttribute("class", "commentP");
+          commentTextDiv.appendChild(commentP);
+			
 
-		let deleteIcon = document.createElement("i");
-		deleteIcon.setAttribute("class", "fas fa-times delete");
-		deleteIcon.setAttribute("onClick", "deleteComment("+resultData.data[i].c_id+", "+resultData.data[i].p_id+")");
-		flexDiv.appendChild(deleteIcon);
+			let commentInput = document.createElement("input");
+			commentInput.setAttribute("type", "checkbox");
+			commentInput.setAttribute("id", "checkUser"+resultData.data[i].c_id);
+			commentInput.setAttribute("class", "checkUser");
+			commentInput.setAttribute("name", resultData.data[i].c_id);
+			commentInput.setAttribute("value", resultData.data[i].checkNum);
+			commentInput.setAttribute("onclick", "checkUser(this, "+resultData.data[i].p_id+")");
+			commentP.appendChild(commentInput);
+
+			let commentPText = document.createTextNode(resultData.data[i].nickname1);
+			commentP.appendChild(commentPText);
 		
-		console.log(resultData.data[i].userId === resultData.suserId);
-		console.log(resultData.data[i].userId);
-		console.log(resultData.suserId);
-		if(resultData.data[i].userId === resultData.suserId){
-			deleteIcon.style.display = 'block';
-		} else {
-			deleteIcon.style.display = 'none';
-		}
-	   
-	    
-	  } else {
-	    if(resultData.data[i].c_end == '1'){
-			nickDiv2.innerHTML += "<h5 class='nick1'>"+resultData.data[i].nickname1+"'s</5>";
-		   showNick(resultData.data[i]);			
-	    }
+			let commentDiv = document.createElement("div");
+			commentDiv.setAttribute("class", "commentDiv");
+			commentW.appendChild(commentDiv);
+		
+			let flexDiv = document.createElement("div");
+			flexDiv.setAttribute("class", "d-flex align-items-center justify-content-between");
+			commentDiv.appendChild(flexDiv);
+		
+			let remoteResult = document.createElement("div");
+			remoteResult.setAttribute("id", "remoteResult");
+			flexDiv.appendChild(remoteResult);
+		
+			let remoteImg = document.createElement("img");
+			remoteImg.setAttribute("class", "remote1");
+			remoteImg.setAttribute("src", "/resources/img/1_remote.png");
+			remoteResult.appendChild(remoteImg);
+		
+			let spanDiv = document.createElement("span");
+			spanDiv.setAttribute("class", "commentLength");
+			spanDiv.setAttribute("id", "commentLength"+commentId);
+			spanDiv.innerHTML = resultData.data[i].checkNum.length;
+			remoteResult.appendChild(spanDiv);
+
+			let deleteIcon = document.createElement("i");
+			deleteIcon.setAttribute("class", "fas fa-times delete");
+			deleteIcon.setAttribute("onClick", "deleteComment("+resultData.data[i].c_id+", "+resultData.data[i].p_id+")");
+			flexDiv.appendChild(deleteIcon);
+		
+			if(resultData.data[i].userId === resultData.suserId){
+				deleteIcon.style.display = 'block';
+			} else {
+				deleteIcon.style.display = 'none';
+			}
+				   	    
+	    } else {
+			if(resultData.data[i].c_end == '1'){
+				nickDiv2.innerHTML += "<h5 class='nick1'>"+resultData.data[i].nickname1+"'s</5>";
+				showNick(resultData.data[i]);			
+			}
 			checkNum.style.display = 'none'; 
-	  }
-	}
+		}
+      }
 	
+	  
+	  let comSub = document.createElement("div");
+	  comSub.setAttribute("class", "comSub");
+	  startDiv.appendChild(comSub);
 	
-	let comSub = document.createElement("div");
-	comSub.setAttribute("class", "comSub");
-	
-	startDiv.appendChild(comSub);
-	
-	currentDiv.appendChild(startDiv);
-	
-	let arrowUp = document.getElementById("comment"+num);
-	arrowUp.setAttribute('onclick', 'hideComment('+num+')');
-	
-	arrowUp.innerHTML = 'comment <i class="fa fa-sort-up"></i>';
+	  let arrowUp = document.getElementById("comment"+num);
+	  arrowUp.setAttribute('onclick', 'hideComment('+num+')');
+	  arrowUp.innerHTML = 'comment <i class="fa fa-sort-up"></i>';
 		
-	let commentBox = document.querySelector(".commentBody"+num);
-	commentBox.style.display = 'block';  
-
+	  let commentBox = document.querySelector(".commentBody"+num);
+	  commentBox.style.display = 'block';  	
+   }
 }
 
 //allPost() : myPost 게시글의 댓글을 출력하기 전 거치는 ajax
 function allCommentAjax(num) {
 
-	let url = '/comment/'+num;
+	let url = '/comment/mypost/'+num;
 	
 	const postId = num;
 	
@@ -454,6 +468,23 @@ function hideComment(num) {
 	    arrowDown.innerHTML = 'comment <i class="fa fa-sort-up"></i>';
 	}
 }
+
+
+//hideComment() : 모든 댓글을 숨기고 보여주는 함수.
+function nullComment() {
+	let nullDiv = document.querySelector(".nullDiv");
+	let arrowDown = document.querySelector(".hide-link");
+	
+	if(nullDiv.style.display == 'block'){
+	    nullDiv.style.display = 'none';
+	    arrowDown.innerHTML = 'comment <i class="fa fa-sort-down"></i>';
+	} else {
+	    nullDiv.style.display = 'block';
+	    arrowDown.innerHTML = 'comment <i class="fa fa-sort-up"></i>';
+	}
+}
+
+
 
 //endPost() : 레이드 종료 버튼.
 /* session에 있는 nickname1과 mypost에 떠있는 포스트 작성자의 nickname1이

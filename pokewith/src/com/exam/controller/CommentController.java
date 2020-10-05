@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.exam.beans.CommentBean;
+import com.exam.beans.CommentIndex;
+import com.exam.beans.CommentMypost;
 import com.exam.beans.PostBean;
 import com.exam.beans.UserBean;
 import com.exam.mapper.CommentMapper;
@@ -37,7 +39,7 @@ public class CommentController {
 	
 	@ResponseBody
 	@GetMapping("/{p_id}") //댓글 출력
-	public Result2Dto lookcomment(@PathVariable String p_id, HttpServletRequest request){
+	public CommentIndex lookcomment(@PathVariable String p_id, HttpServletRequest request){
 		logger.info("/comment get 접속");
 		logger.info("p_id : "+ p_id);
 		HttpSession ss = request.getSession();
@@ -48,12 +50,12 @@ public class CommentController {
 		UserBean userBean = new UserBean();
 		userBean.setUserId(userId);
 		
-		return new Result2Dto(commentmapper.getComment(commentBean), usermapper.getUser(userBean));
+		return new CommentIndex(commentmapper.getComment(commentBean), usermapper.getUser(userBean));
 	}
 	
 	@ResponseBody
 	@GetMapping("/mypost/{p_id}") //댓글 출력
-	public ResultDto lookmycomment(@PathVariable String p_id, HttpServletRequest request){
+	public CommentMypost lookmycomment(@PathVariable String p_id, HttpServletRequest request){
 		logger.info("/comment get 접속");
 		logger.info("p_id : "+ p_id);
 		HttpSession ss = request.getSession();
@@ -62,7 +64,7 @@ public class CommentController {
 		commentBean.setP_id(p_id);
 		
 		
-		return new ResultDto(commentmapper.getComment(commentBean), userId);
+		return new CommentMypost(commentmapper.getComment(commentBean), userId);
 	}
 	
 	@ResponseBody

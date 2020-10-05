@@ -5,7 +5,7 @@
 
 	<nav th:fragment="header" class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 	  <!-- Sidebar Toggle (Topbar) -->
-	  <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+	  <button id="sidebarToggleTop" class="stress btn btn-link d-md-none rounded-circle mr-3">
 	    <i class="fa fa-bars"></i>
 	  </button>
 	
@@ -22,7 +22,9 @@
 	          <span th:if="${session.userId != null}" th:text="${session.nickname1}"></span>
 	        </a>
 	        <div class="dropdown-menu">
-	          <a th:if="${session.userId != null}" href="/post">My post</a>       
+	          <a th:if="${session.userId != null}" class="dropdown-item" href="/">Home</a>
+	          <div th:if="${session.userId != null}" class="dropdown-divider"></div>
+	          <a th:if="${session.userId != null}" class="dropdown-item" href="/post">My post</a>       
 	          <div th:if="${session.userId != null}" class="dropdown-divider"></div>
 	          <a th:if="${session.userId != null}" class="dropdown-item" href="/page">My page</a>
 	          <div th:if="${session.userId != null}" class="dropdown-divider"></div>

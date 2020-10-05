@@ -1,4 +1,4 @@
-package com.exam.controller;
+package com.exam.beans;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResultDto<T> {
+public class CommentMypost<T> {
 	
 	private T data;
 	private String suserId;

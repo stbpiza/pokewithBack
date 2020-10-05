@@ -24,5 +24,7 @@ public interface UserMapper {
 			+ "nickname5=#{nickname5}, friendCode5=#{friendCode5} WHERE userId=#{userId}")
 	public void reUser(UserBean userBean);
 	
-
+	@Update("UPDATE user LEFT JOIN post ON user.userId = post.userId LEFT JOIN comment ON user.userId = comment.userId SET post.p_end = 2"
+			+ ", comment.c_end = 2 WHERE user.userId=#{userId}")
+	public void cleanUser(UserBean userBean);
 }

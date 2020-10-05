@@ -11077,7 +11077,7 @@ a:focus {
   }
 
   .sidebar {
-    display: inline;
+   /* display: inline; */
   }
 
   .sidebar img {
