@@ -1,4 +1,4 @@
-# pokewithBack
+# pokewith
 Website for invite to pokemon go raid   
 포켓몬고 raid 초대 웹사이트   
 
